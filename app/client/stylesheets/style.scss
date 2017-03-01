@@ -1,0 +1,91 @@
+$primary-color: #add8e6; // lightblue
+$secondary-color: #808080; // gray
+$highlight-color: #f15a29; // was orange
+
+// $paths: index, signup, login, reset;
+
+$paths: signup, login, createpoll, mypolls, myaccount;
+
+/********************************************************/
+// helpers
+.visibility--show {
+  visibility: visible !important;
+}
+
+.visibility--hide {
+  visibility: hidden !important;
+}
+
+.display--show {
+  display: initial !important;
+}
+
+.display--hide {
+  display: none !important;
+}
+
+
+/********************************************************/
+
+
+
+*, :before, :after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+}
+
+a {
+    &:link {
+        text-decoration: none;
+        color: $secondary-color;
+    }
+    &:visited {
+        color: $secondary-color;
+    }
+    &:hover {
+        color: $highlight-color;
+    }
+    &:active {
+        color: $highlight-color;
+    }
+}
+
+button {
+  outline: none; // removes default button highlighting
+  border: none;
+  &:disabled {
+    color: #999;
+  }
+}
+
+input {
+  padding: 0 0.5rem;
+  &[type='submit'] {
+    border: none;
+  }
+  &[type='button'] {
+    outline: none;
+    border: none;
+  }
+  &:disabled {
+    color: #999;
+  }
+}
+
+/********************************************************/
+// 404 page not found
+.page-not-found {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+/********************************************************/
+// footer
+footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+/********************************************************/

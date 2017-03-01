@@ -1,0 +1,40 @@
+doctype html
+html(lang='en')
+  head
+    title VOTE, a Free Code Camp Project
+    script(src='/static/js/pre.bundle.js')
+    link(rel='stylesheet' href='/static/css/style.css')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat')
+  body
+    nav.main-nav
+      ul(class= path)
+        a.main-nav__logo(href='/').index: img(src='/static/img/checkmark.svg')
+        if loggedIn === 'true'
+          li.main-nav__list.createpoll: a(href='/createpoll') Create Poll
+          li.main-nav__list.mypolls: a(href='/mypolls') My Polls
+          li.main-nav__list.myaccount.account-nav
+            a(href='#myaccount') My Account
+            ul
+              li.account-nav__list: a(href='#settings') Settings
+              li.account-nav__list: a(href='/logout') Log Out
+        else
+          li.main-nav__list.signup: a(href='/signup') Sign Up
+          li.main-nav__list.login: a(href='/login') Log In
+    section.main-banner
+      a.vote__link(href='/')
+        svg.vote__fulllogo(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 96")
+          path.vote-0(d="M19 25h48v48H19z")
+          path.vote-1(d="M19 25L43 49 85 7")
+          path.vote-0(d="M90 25h48v48H90z")
+          path.vote-2(d="M180 25v48")
+          path.vote-2(d="M156 25h48")
+          path.vote-2(d="M270 73h-48V25h48")
+          path.vote-3(d="M222 49h48")
+        .vote__subtitle A Free Code Camp Project
+      if path == 'index'
+        .vote__description Create custom polls with live results.
+      if path == 'index'
+        if loggedIn != 'true'
+          form
+            button.vote__button(formaction='/signup') Sign Up
+
