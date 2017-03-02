@@ -5,7 +5,7 @@
 require('dotenv').config(); // loads env vars (don't need in prod)
 
 // built-in requires
-const path = require('path');
+const path = require('path'); // for joining paths
 
 // main base tech stack requires
 const express = require('express');
@@ -20,24 +20,21 @@ const io = require('socket.io')(server);
 // other base tech stack requires
 const favicon = require('serve-favicon');
 
-// for using HTTP DELETE in forms
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
 
 // database requires
 const mongoose = require('mongoose'); // already includes mongoDB
 
 // security requires
 const helmet = require('helmet');
-const sanitizer = require('sanitizer'); // where will I be using sanitizer?
+// const sanitizer = require('sanitizer'); // have I even used this?
 const limiter = require('limiter'); // where will I be using limiter?
 // const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'; since not using email confirm, no need...
 
 // performance requires
-const compression = require('compression'); // where am I using this?
+const compression = require('compression'); // compresses req/res 
 
 // authentication and its dependency requires
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session'); // session data is not saved in the cookie itself, just the session ID. Session data is stored server-side.
 const MongoStore = require('connect-mongo')(session); // move store from mem to mongo
@@ -45,7 +42,7 @@ const passport = require('passport');
 
 
 // development requires
-const morgan = require('morgan');
+const morgan = require('morgan'); // allows for every HTTP request to be logged to console
 
 
 // custom requires
@@ -82,7 +79,7 @@ app.use(methodOverride((req, res) => {
 }));
 
 
-app.use(compression());
+app.use(compression()); // compresses all req and res
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
 app.use('/static', express.static(path.join(__dirname,'/static')));
 app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
@@ -90,7 +87,6 @@ app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 
 app.use(morgan('dev')); // log every request to console.
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // configure the session
 const sessionMiddleware = session({

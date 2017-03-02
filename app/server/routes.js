@@ -12,7 +12,7 @@ module.exports = (app, passport) => {
             // join main socket io room (this room is needed as at this level, polls can be added and deleted at will) and any previous room
              res.render('index', { loggedIn: 'true', path: 'index' }); //loggedIn still needed to not display the 'sign up' button
            else res.render('index', { path: 'index' });
-        })
+        });
 
 
     app.route('/signup') // this allows for the question mark path.

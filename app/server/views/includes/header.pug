@@ -1,10 +1,11 @@
 doctype html
 html(lang='en')
   head
-    title VOTE, a Free Code Camp Project
+    title Nightlife, a Free Code Camp Project
     script(src='/static/js/pre.bundle.js')
     link(rel='stylesheet' href='/static/css/style.css')
     link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css' integrity='sha256-rr9hHBQ43H7HSOmmNkxzQGazS/Khx+L8ZRHteEY1tQ4=' crossorigin='anonymous')
   body
     nav.main-nav
       ul(class= path)
@@ -22,14 +23,14 @@ html(lang='en')
           li.main-nav__list.login: a(href='/login') Log In
     section.main-banner
       a.vote__link(href='/')
-        svg.vote__fulllogo(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 96")
-          path.vote-0(d="M19 25h48v48H19z")
-          path.vote-1(d="M19 25L43 49 85 7")
-          path.vote-0(d="M90 25h48v48H90z")
-          path.vote-2(d="M180 25v48")
-          path.vote-2(d="M156 25h48")
-          path.vote-2(d="M270 73h-48V25h48")
-          path.vote-3(d="M222 49h48")
+        svg.vote__fulllogo(xmlns='http://www.w3.org/2000/svg' viewBox='0 0 288 96')
+          path.vote-0(d='M19 25h48v48H19z')
+          path.vote-1(d='M19 25L43 49 85 7')
+          path.vote-0(d='M90 25h48v48H90z')
+          path.vote-2(d='M180 25v48')
+          path.vote-2(d='M156 25h48')
+          path.vote-2(d='M270 73h-48V25h48')
+          path.vote-3(d='M222 49h48')
         .vote__subtitle A Free Code Camp Project
       if path == 'index'
         .vote__description Create custom polls with live results.
