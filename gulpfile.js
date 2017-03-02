@@ -9,6 +9,8 @@ const gulp = require('gulp');
 const gutil = require('gulp-util');
 // const gulpif = require('gulp-if');
 
+const nodemon = require('gulp-nodemon');
+
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const autoprefixer = require('gulp-autoprefixer');
@@ -25,14 +27,39 @@ const rename = require('gulp-rename');
 
 const imagemin = require('gulp-imagemin');
 
+
 // var production = process.env.NODE_ENV === 'production';
 
-gulp.task('browserSync', () => {
-    browserSync.init({
-        proxy: 'localhost:5000', // heroku local -> gulp watch -> localhost:3000
-        ghostMode: true, // sync across all browsers
-        port: 3000 // the port that browserSync uses
+gulp.task('refreshers', ['watch'], () => {
+  var stream = nodemon({
+    script: 'app.js',
+    ext: 'html pug js',
+    env: { 'NODE_ENV': 'development' }
+  });
+
+  stream
+    .on('start', () => {
+      console.log('Nodemon started!');
+      browserSync.reload();
+    })
+    .on('restart', () => {
+      console.log('Nodemon restarted!');
+      browserSync.reload();
+    })
+    .on('crash', () => {
+      console.error('Nodemon crashed!');
+      stream.emit('restart', 10); // restart the server in 10 seconds
     });
+
+  browserSync.init({
+    proxy: {
+      target: 'localhost:5000',
+      ws: true // websockets
+    }, // heroku local -> gulp watch -> localhost:3000
+    ghostMode: true, // sync across all browsers
+    reloadDelay: 2000,
+    port: 3000 // the port that browserSync uses
+  });
 });
 
 gulp.task('sass', () => {
@@ -99,7 +126,7 @@ gulp.task('image', () => {
         .pipe(gulp.dest('./static/img'));
 });
 
-gulp.task('watch', ['browserSync'], () => {
+gulp.task('watch', ['build'], () => {
     gulp.watch('./app/client/stylesheets/*.scss', ['sass']); // why can't it be '/'?
     gulp.watch('./app/client/scripts/*.js', ['script']); // will reload twice (if not directly modifying the pre and post js files. Once for the module file, and then again since the changes propagating to the pre/post will trigger the task again).
   //  gulp.watch('public/*.html', browserSync.reload);
@@ -107,5 +134,5 @@ gulp.task('watch', ['browserSync'], () => {
   //    gulp.watch('*', browserSync.reload);
 });
 
-gulp.task('default', ['build', 'watch']);
 gulp.task('build', ['sass', 'script']);
+gulp.task('default', ['refreshers']);

@@ -2,10 +2,6 @@ $primary-color: #add8e6; // lightblue
 $secondary-color: #808080; // gray
 $highlight-color: #f15a29; // was orange
 
-// $paths: index, signup, login, reset;
-
-$paths: signup, login, createpoll, mypolls, myaccount;
-
 /********************************************************/
 // helpers
 .visibility--show {
@@ -50,6 +46,13 @@ a {
     }
 }
 
+section { // by default let section take up 80% width of the body
+  width: 80%;
+  max-width: 960px;
+  margin: 1rem auto;
+}
+
+/*
 button {
   outline: none; // removes default button highlighting
   border: none;
@@ -71,8 +74,13 @@ input {
     color: #999;
   }
 }
+*/
+/********************************************************/
+// section
+
 
 /********************************************************/
+
 // 404 page not found
 .page-not-found {
   text-align: center;

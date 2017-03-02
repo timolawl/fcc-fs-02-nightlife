@@ -69,14 +69,6 @@ app.locals.basedir = app.get('views'); // allows for pug includes
 app.set('port', port);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride((req, res) => {
-  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    // look in urlencoded POST bodies and delete it
-    let method = req.body._method
-    delete req.body._method
-    return method
-  }
-}));
 
 
 app.use(compression()); // compresses all req and res

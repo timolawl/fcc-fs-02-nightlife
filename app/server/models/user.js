@@ -1,8 +1,8 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const SALT_WORK_FACTOR = 10;
+// const bcrypt = require('bcrypt');
+// const SALT_WORK_FACTOR = 10;
 
 const Poll = require('./poll');
 
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
       //  pollsVotedOn: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Poll' }]
     }
 });
-
+/*
 userSchema.pre('save', function (next) {
     const user = this;
     // only hash the password if it has been modified or is new
@@ -47,5 +47,5 @@ userSchema.methods.comparePassword = function (candidatePassword, callback) {
         callback(null, isMatch);
     });
 };
-
+*/
 module.exports = mongoose.model('User', userSchema);
