@@ -1,6 +1,6 @@
-$primary-color: #add8e6; // lightblue
-$secondary-color: #808080; // gray
-$highlight-color: #f15a29; // was orange
+$primary-color: #011C40; // darkblue #add8e6; // lightblue
+$secondary-color: #271F1C; // darkbrown #808080; // gray
+$highlight-color: #F29D35; // lamplight #f15a29; // was orange
 
 /********************************************************/
 // helpers
@@ -27,16 +27,16 @@ $highlight-color: #f15a29; // was orange
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Montserrat;
+  //  font-family: Roboto;
 }
 
 a {
     &:link {
         text-decoration: none;
-        color: $secondary-color;
+        color: #999;
     }
     &:visited {
-        color: $secondary-color;
+        color: #999;
     }
     &:hover {
         color: $highlight-color;
@@ -47,11 +47,24 @@ a {
 }
 
 section { // by default let section take up 80% width of the body
-  width: 80%;
-  max-width: 960px;
-  margin: 1rem auto;
+  //width: 80%;
+  //max-width: 960px;
+  //margin: 1rem auto;
+
 }
 
+body {
+  background: $primary-color;
+  // height: 100vh;
+  
+}
+/*
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
+*/
 /*
 button {
   outline: none; // removes default button highlighting
@@ -76,9 +89,151 @@ input {
 }
 */
 /********************************************************/
-// section
+//
+
+/********************************************************/
+// foundation overrides
+
+p {
+  line-height: 1rem;
+  font-size: 0.9rem;
+}
+
+.badge {
+  //min-height: 2.1em;
+  padding: 0.5em;
+  vertical-align: middle;
+  &.secondary {
+    // background-color: #024059;
+    background-color: #024059; // $primary-color;
+  }
+
+}
+
+.button {
+  &.secondary {
+    background-color: #999;
+    &:hover {
+      background-color: $highlight-color;
+    }
+  }
+  &.success {
+   background-color: $highlight-color;
+   &:hover {
+    background-color: #999;
+   }
+  }
+}
+
+.callout {
+  background-color: #024059;
+  //border: 1px solid $highlight-color; //  #fefefe;
+  border: none;
+  margin: 0.5rem;
+}
+
+.card {
+  background-color: #024059;
+  //border: 1px solid $highlight-color;
+  border: none;
+  margin: 0.5rem;
+}
+
+.column, .columns {
+  padding: 0;
+}
+
+.img-thumbnail {
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  margin-bottom: 0;
+}
 
 
+/********************************************************/
+// personal classes
+// overlay
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  opacity: 0.3;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 640px;
+  min-width: 320px;
+  height: auto;
+  z-index: 100;
+  //text-align: center;
+  background: #fff; // #024059;
+}
+
+.bar {
+  &__head { // main box with search and title
+     
+  }
+
+  &__list { // section for entire bar list
+    display: none; 
+  }
+
+  &__title {
+    margin-bottom: 0;
+    color: $highlight-color;
+  }
+  &__review {
+    color: #999;
+  }
+  &__going {
+    &--text {
+      margin-left: 0.25em;
+      vertical-align: middle;
+    }  
+  }
+
+}
+
+.button {
+  &--log {
+    margin-top: 0.5rem;
+  }
+}
+
+.title {
+  padding: 0;
+  font-family: Bevan;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  color: $highlight-color;
+
+  &--one {
+    color: #999;
+  }
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: #999; // $highlight-color; //  #D9B282;
+}
+
+.marker {
+  height: 2rem;
+  width: 2rem;
+  vertical-align: text-bottom;
+}
+  
 /********************************************************/
 
 // 404 page not found
@@ -91,7 +246,8 @@ input {
 /********************************************************/
 // footer
 footer {
-    text-align: center;
-    margin-top: 2rem;
+  color: #999;  
+  text-align: center;
+  margin: 2rem 0;
 }
 /********************************************************/

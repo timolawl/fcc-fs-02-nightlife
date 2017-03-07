@@ -1,29 +1,59 @@
 include /includes/header.pug
-section
-  .list-of-bars
-    .row
-      .col
-        .card
-          .card-block
-            img(src='http://placehold.it/150x150' class='img-fluid' alt='bar1')
-            h3.card-title Bar 1
-            p.card-text Snippet of top review..
-            button(class='btn btn-primary' type='button') Going!
-      .col
-        .card
-          .card-block
-            img(src='http://placehold.it/150x150' class='img-fluid' alt='bar1')
-            h3.card-title Bar 1
-            p.card-text Snippet of top review..
-            button(class='btn btn-primary' type='button') Going! 
-      .col
-        .card
-          .card-block
-            img(src='http://placehold.it/150x150' class='img-fluid mx-auto d-block' alt='bar1')
-            h3.card-title Bar 1
-            p.card-text Snippet of top review..
-            button(class='btn btn-primary' type='button') Going! 
-
-
-  
+section.bar__list
+  div(class='row')
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar1')
+          h6.bar__title(class='card-title') Bar 1
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum
+          button(class='button secondary' type='button')
+            span(class='badge secondary') 0
+            span.bar__going--text Going
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar2')
+          h6.bar__title(class='card-title') Bar 2
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum more text here oh yeah let's add a few more lines to text the height of the container
+          button(class='button secondary' type='button')
+            span(class='badge secondary') 1
+            span.bar__going--text Going!
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar3')
+          h6.bar__title(class='card-title') Bar 3
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum yums adding more text and even more text to simulate a large comment written on yelp. I need to see what a good size is for this. Should be good now I believe.
+          button(class='button success' type='button')
+            span(class='badge secondary') 1
+            span.bar__going--text Going!
+  div(class='row')
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar4')
+          h6.bar__title(class='card-title') Bar 4
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum
+          button(class='button secondary' type='button')
+            span(class='badge secondary') 0
+            span.bar__going--text Going
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar5')
+          h6.bar__title(class='card-title') Bar 5
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum
+          button(class='button secondary' type='button')
+            span(class='badge secondary') 0
+            span.bar__going--text Going
+    div(class='column medium-4 large-4')
+      div(class='card')
+        div(class='card-section text-center')
+          img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar6')
+          h6.bar__title(class='card-title') Bar 6
+          p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum
+          button(class='button secondary' type='button')
+            span(class='badge secondary') 0
+            span.bar__going--text Going 
 include /includes/footer.pug
