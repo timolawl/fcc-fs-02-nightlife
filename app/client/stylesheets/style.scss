@@ -46,18 +46,29 @@ a {
     }
 }
 
-section { // by default let section take up 80% width of the body
-  //width: 80%;
-  //max-width: 960px;
-  //margin: 1rem auto;
-
-}
 
 body {
   background: $primary-color;
   // height: 100vh;
   
 }
+
+section { // by default let section take up 80% width of the body
+  /*
+  width: 80%;
+  max-width: 960px;
+  margin: 1rem auto;
+  */
+  /*
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  */
+}
+
 /*
 button {
   &:hover {
@@ -129,7 +140,7 @@ p {
   background-color: #024059;
   //border: 1px solid $highlight-color; //  #fefefe;
   border: none;
-  margin: 0.5rem;
+  margin: 0;
 }
 
 .card {
@@ -182,11 +193,20 @@ p {
 
 .bar {
   &__head { // main box with search and title
-     
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(80% - 2 * 0.5rem);
+    max-width: calc(960px - 2 * 0.5rem);
+    //padding: 0;
   }
 
   &__list { // section for entire bar list
-    display: none; 
+    display: none;
+    width: 80%;
+    max-width: 960px;
+    margin: 1rem auto;
   }
 
   &__title {
@@ -248,6 +268,10 @@ p {
 footer {
   color: #999;  
   text-align: center;
-  margin: 2rem 0;
+  margin: 2rem auto;
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+
 }
 /********************************************************/
