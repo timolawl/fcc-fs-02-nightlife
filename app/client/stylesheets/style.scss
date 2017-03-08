@@ -69,13 +69,13 @@ section { // by default let section take up 80% width of the body
   */
 }
 
-/*
+
 button {
   &:hover {
     cursor: pointer;
   }
 }
-*/
+
 /*
 button {
   outline: none; // removes default button highlighting
@@ -141,6 +141,7 @@ p {
   //border: 1px solid $highlight-color; //  #fefefe;
   border: none;
   margin: 0;
+  vertical-align: middle;
 }
 
 .card {
@@ -181,18 +182,25 @@ p {
 }
 
 .modal {
-  display: none;
+  //display: none;
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  max-width: 640px;
-  min-width: 320px;
+  //width: 50%;
+  //max-width: 640px;
+  //min-width: 320px;
+  padding: 2rem 6rem 4rem;
   height: auto;
   z-index: 100;
   //text-align: center;
-  background: #fff; // #024059;
+  background: #024059;
+  &--title {
+    font-family: Bevan;
+    font-size: 1.5rem;
+    color: #999;
+    margin-bottom: 2rem;
+  }
 }
 
 .mainbox {
@@ -212,11 +220,19 @@ p {
     max-width: 100%;
   }
 
+  &__input { // subcontainer of form, parent container of mainbox__search items
+  //  display: inline-block;
+  }
+
   &__search {
     margin: 0 auto;
+    width: 100%;
     max-width: 720px;
     &--top {
       margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+      max-width: calc(720px - 128px); // to accommodate for the login button
     }
   }
 
@@ -224,7 +240,7 @@ p {
     padding: 0;
     font-family: Bevan;
     font-size: 2rem;
-    line-height: 2rem;
+    line-height: 2.5rem;
     color: $highlight-color;
 
     &--nc {
@@ -236,6 +252,14 @@ p {
     }
   }
 
+  &__titlerow {
+    &--top {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 1rem;
+    }
+  }
+
   &__subtitle {
     font-size: 0.8rem;
     color: #999; // $highlight-color; //  #D9B282;
@@ -243,6 +267,12 @@ p {
 
   &__log-button {
     margin-top: 0.5rem;
+    &--top {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0;
+      margin-left: 1.5rem; 
+    }
   }
 
 
@@ -251,10 +281,11 @@ p {
 .bar {
   
   &-list { // section for entire bar list
-    display: none;
     width: 80%;
     max-width: 960px;
     margin: 1rem auto;
+
+    margin-top: calc(72px + 0.5rem); // 40px base top-bar height + 12px top/bottom padding = 72px;
   }
 
   
@@ -280,6 +311,73 @@ p {
   width: 2rem;
   vertical-align: text-bottom;
 }
+
+.social-login {
+  &__button {
+    color: #fff;
+    padding: 0.5rem;
+    //margin: 1rem;
+    display: block;
+    margin: 0 auto 1rem;
+    width: 220px;
+    text-align: left;
+    transition: background-color 0.25s ease-out;
+
+    &--twitter {
+      background-color: #1DA1F2;
+      &:hover {
+        background-color: darken(#1DA1F2, 10%);
+      }
+    }
+
+    &--facebook {
+      background-color: #3B5998;
+      &:hover {
+        background-color: darken(#3B5998, 10%);
+      }
+    }
+  }
+
+  &__icon {
+    //border-right: 1px solid white;
+  
+    &--twitter {
+      margin-right: 0.25rem;
+      width: 32px;
+    }
+    &--facebook {
+      margin-right: 0.25rem;
+      width: 32px;
+    }
+  }
+  
+  &__vertical-bar {
+    display: inline-block;
+    width: 1px;
+    height: 32px;
+    background-color: white;
+    vertical-align: middle;
+  }
+
+  &__text {
+    display: inline-block;
+    //width: 
+    &--twitter {
+      width: 150px; // to match facebook's
+      text-align: center;
+      margin-left: 0.5rem; 
+    }
+    &--facebook {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &__close {
+    
+  }
+}
+
+
   
 /********************************************************/
 
@@ -296,9 +394,11 @@ footer {
   color: #999;  
   text-align: center;
   margin: 2rem auto;
+}
+
+.footer--unsearched {
   position: fixed;
   bottom: 0;
   left: 0; right: 0;
-
 }
 /********************************************************/

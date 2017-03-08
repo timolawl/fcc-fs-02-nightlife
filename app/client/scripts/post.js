@@ -5,8 +5,9 @@ var socket = io();
 
 window.onload = function () {
   document.querySelector('.mainbox__search').addEventListener('click', e => {
-    if (e.target.classList.contains('mainbox__search--submit')) {
-      console.log(document.querySelector('.mainbox__search--input').value);
+    if (e.target.classList.contains('mainbox__search--submit') && document.querySelector('.mainbox__search--input').value) {
+      document.querySelector('footer').classList.remove('footer--unsearched');
+      document.querySelector('.bar-list').classList.remove('visibility--hide');
       // on clicking the submit button, the box moves up
       // and the results appear one by one transitioning from visibility 0 to full
       // a total of 9 results -- 3 rows worth
@@ -21,10 +22,14 @@ window.onload = function () {
       document.querySelector('.mainbox__search').classList.add('mainbox__search--top'); // left-aign search input
       document.querySelector('.mainbox__titlerow').classList.add('display--hide');
       document.querySelector('.mainbox__titlerow--top').classList.remove('display--hide');
+      document.querySelector('.mainbox__subcontent').classList.add('display--hide');
+      document.querySelector('.mainbox__log-button--top').classList.remove('display--hide');
+      /*
       Array.prototype.forEach.call(document.querySelectorAll('.mainbox__subtitle'), e => {
         e.classList.add('display--hide');
       });
-      document.querySelector('.mainbox__log-button').classList.add('display--hide');
+      */
+      // document.querySelector('.mainbox__log-button').classList.add('display--hide');
     }
   });
 };

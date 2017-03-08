@@ -7,32 +7,35 @@ html(lang='en')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css' integrity='sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=' crossorigin='anonymous')
     link(rel='stylesheet' href='/static/css/style.css')
   body
-    .modal
-      .twitter
-        button(class='btn btn-block btn-social btn-twitter')
-          i(class='fa fa-twitter') Sign in with Twitter
-      .facebook
-        button(class='btn btn-block btn-social btn-facebook')
-          i(class='fa fa-facebook') Sign in with Facebook
-    section.mainbox(class='callout text-center')
-      div.mainbox__titlerow(class='row')
+    .modal(class='text-center')
+      .modal--title Log In
+      button.social-login__button.social-login__button--twitter(type='button')
+        img.social-login__icon.social-login__icon--twitter(src='/static/img/twitter.svg')
+        .social-login__vertical-bar
+        .social-login__text.social-login__text--twitter Log in with Twitter
+      button.social-login__button.social-login__button--facebook(type='button')
+        img.social-login__icon.social-login__icon--facebook(src='/static/img/facebook.svg')
+        .social-login__vertical-bar
+        .social-login__text.social-login__text--facebook Log in with Facebook
+      button.social-login__close(class='button secondary') Close
+    section.mainbox(class='callout')
+      .mainbox__titlerow(class='row')
         div(class='medium-8 large-8 column')
           .mainbox__title.mainbox__title--nc(class='text-left') Nightlife Coordinator
         div(class='medium-4 large-4 column')
           .mainbox__title.mainbox__title--bn(class='text-right') bar none.
-      div.mainbox__titlerow--top.display--hide(class='row')
-        div(class='medium-4 large-4 column')
-          .mainbox__title.mainbox__title--bn(class='text-left')
-            a(href='/') bar none.
-        //div(class='medium-8 large-8 column')
-        //  .mainbox__title.mainbox__title--nc(class='text-right') Nightlife Coordinator
+      .mainbox__titlerow--top.display--hide(class='row')
+        .mainbox__title.mainbox__title--bn(class='text-left')
+          a(href='/') bar none.
       form.mainbox__search
-        div(class='input-group')
+        .mainbox__input(class='input-group')
           input.mainbox__search--input(type='text' placeholder='Search for bars around...' class='input-group-field')
           a.mainbox__search--submit(class='input-group-button button secondary') Search
-      span.mainbox__subtitle(class='text-center') A 
-        a(href='https://www.freecodecamp.com') Free Code Camp 
-      span.mainbox__subtitle Project
-      br
-      button.mainbox__log-button(class='button secondary' role='button') Log In
-    .overlay.visibility--hide
+      button.mainbox__log-button--top.display--hide(class='button secondary' role='button') Log In
+      .mainbox__subcontent(class='text-center')
+        span.mainbox__subtitle(class='text-center') A 
+          a(href='https://www.freecodecamp.com') Free Code Camp 
+        span.mainbox__subtitle Project
+        br
+        button.mainbox__log-button(class='button secondary' role='button') Log In
+    .overlay
