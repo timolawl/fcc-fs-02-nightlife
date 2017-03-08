@@ -4,18 +4,14 @@
 var socket = io();
 
 window.onload = function () {
+  // reveal results and unfix the display of footer
   document.querySelector('.mainbox__search').addEventListener('click', e => {
-    if (e.target.classList.contains('mainbox__search--submit') && document.querySelector('.mainbox__search--input').value) {
+    if (e.target.classList.contains('mainbox__search--submit') && document.querySelector('.mainbox__search--input').value) { // submit button pressed with inputted content
       document.querySelector('footer').classList.remove('footer--unsearched');
       document.querySelector('.bar-list').classList.remove('visibility--hide');
-      // on clicking the submit button, the box moves up
-      // and the results appear one by one transitioning from visibility 0 to full
-      // a total of 9 results -- 3 rows worth
-      // what if more results from the same area are wanted?
-      // multiple pages? arrow keys to go onto the next list (w/o page refresh)
-      // once a letter is typed, move the input field to the top as a mainbox at the top
     }
   });
+  // when there is input, change view to have search bar at the top of the page
   document.querySelector('.mainbox__search--input').addEventListener('input', e => {
     if (e.target.value || e.target.length !== 0) {
       document.querySelector('.mainbox').classList.add('mainbox--top'); // move mainbox to top
@@ -32,6 +28,24 @@ window.onload = function () {
       // document.querySelector('.mainbox__log-button').classList.add('display--hide');
     }
   });
-};
 
+  // When log in button is pressed, unhide overlay and modal
+  document.querySelector('.mainbox__log-button').addEventListener('click', e => {
+    console.log('test');
+    document.querySelector('.overlay').classList.remove('visibility--hide');
+    document.querySelector('.modal').classList.remove('visibility--hide');
+  }); 
+
+  // When the modal close button or the overlay is clicked, exit the modal condition
+  document.querySelector('.social-login__close').addEventListener('click', () => {
+    document.querySelector('.overlay').classList.add('visibility--hide');
+    document.querySelector('.modal').classList.add('visibility--hide');
+  });
+  
+  document.querySelector('.overlay').addEventListener('click', () => {
+    document.querySelector('.overlay').classList.add('visibility--hide');
+    document.querySelector('.modal').classList.add('visibility--hide');
+  });
+
+};
 

@@ -7,7 +7,7 @@ html(lang='en')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css' integrity='sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=' crossorigin='anonymous')
     link(rel='stylesheet' href='/static/css/style.css')
   body
-    .modal(class='text-center')
+    .modal.visibility--hide(class='text-center')
       .modal--title Log In
       button.social-login__button.social-login__button--twitter(type='button')
         img.social-login__icon.social-login__icon--twitter(src='/static/img/twitter.svg')
@@ -38,4 +38,4 @@ html(lang='en')
         span.mainbox__subtitle Project
         br
         button.mainbox__log-button(class='button secondary' role='button') Log In
-    .overlay
+    .overlay.visibility--hide
