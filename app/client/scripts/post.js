@@ -23,6 +23,9 @@ window.onload = function () {
       document.querySelector('.mainbox__subtitle-row').classList.add('display--hide');
       document.querySelector('.mainbox__log-form').classList.add('display--hide');
       document.querySelector('.mainbox__log-form--top').classList.remove('display--hide');
+      if (logStatus === 'Log Out') {
+        document.querySelector('.mainbox__login-details--top').classList.remove('display--hide');
+      }
     }
   });
 

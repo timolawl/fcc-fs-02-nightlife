@@ -37,13 +37,13 @@ html(lang='en')
           button.mainbox__log-button--top(type='button' class='button secondary' role='button') Log In
         if loggedIn === 'true'
           button.mainbox__log-button--top(type='submit' class='button secondary' formaction='/logout' role='button') Log Out
- 
+      .mainbox__login-details.mainbox__login-details--top.display--hide Logged in as #{displayName} via #{provider}.
       .mainbox__subtitle-row(method='GET' class='text-center')
         span.mainbox__subtitle-row--fcc(class='text-center') A 
           a(href='https://www.freecodecamp.com') Free Code Camp 
         span.mainbox__subtitle-row--fcc Project
         br
-      form.mainbox__log-form(method='GET' class='text-center')
+      form.mainbox__log-form(method='GET')
         if loggedIn === 'false'
           button.mainbox__log-button(type='button' class='button secondary' role='button') Log In
         if loggedIn === 'true'
