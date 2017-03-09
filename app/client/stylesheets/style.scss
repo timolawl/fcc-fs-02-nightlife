@@ -252,7 +252,7 @@ p {
     }
   }
 
-  &__titlerow {
+  &__title-row {
     &--top {
       display: inline-block;
       vertical-align: middle;
@@ -260,22 +260,29 @@ p {
     }
   }
 
-  &__subtitle {
-    font-size: 0.8rem;
-    color: #999; // $highlight-color; //  #D9B282;
-  }
-
-  &__log-button {
-    margin-top: 0.5rem;
-    &--top {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0;
-      margin-left: 1.5rem; 
+  &__subtitle-row {
+    &--fcc {
+      font-size: 0.8rem;
+      color: #999; // $highlight-color; //  #D9B282;
     }
   }
 
-
+  &__log {
+    &-form {
+      &--top {
+        display: inline-block;
+      }
+    }
+    &-button {
+      margin-top: 0.5rem;
+      &--top {
+        //display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        margin-left: 1.5rem; 
+      }
+    }
+  }
 }
 
 .bar {

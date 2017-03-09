@@ -1,96 +1,70 @@
-'use strict'
+'use strict';
 
-const uuid = require('node-uuid'); // nonce creation
+const User = require('../models/user.js');
 
-const Poll = require('../models/poll');
-
-
-function controller () {
-  this.createpoll = (req, res) => {
-    const newPoll = new Poll();
-    newPoll._creator = req.user.id;
-    // newPoll.dateCreated = Date.now(); // not needed; will default to Date.now() on every save
-    newPoll.title = req.body.name;
-    let optionsLength = req.body.options.length;
-    for (let i = 0; i < optionsLength; i++) {
-      newPoll.options.push({ optionText: req.body.options[i], voteCount: 0 });
-    }
-    newPoll.permalink = uuid.v4();
-    
-    newPoll.save(err => {
-      if (err) throw err;
-    });
-
-    // it's not a render because the path changes; thus it must be a redirect..
-    // question is, can I pass local variables through a redirect?
-    // maybe this isn't necessary as it can always be queried from the db
-    // but direct queries is not necessary as this individual is the creator.
-    // still, a local variable passed saying that this poll was just created would help..
-    res.redirect('/poll/' + newPoll.permalink); // , { permalink: newPoll.permalink });
-    // the above option should go through the normal behavior of going through controller.renderpoll.. check to make sure later.
-
-  };
-
-  this.renderpoll = (req, res) => {
-    // leave any previous rooms then join the current room
-
-
-    // pull up the poll data using the nonce
-    Poll.findOne({ 'permalink': req.path.slice(6) }).exec((err, poll) => {
-      if (err) throw err;
-      if (!poll) {
-        // no poll exists at this permalink; redirect individual to 404 page.
-        res.redirect('/404');
-      }
-      else {
-        let voted = 'false';
-        // tease out data first..
-        const creator = poll._creator;
-        const pollTitle = poll.title;
-        const voteCount = poll.options.map(x => x.voteCount);
-        const optionText = poll.options.map(x => x.optionText);
-        const voters = poll.voters;
-
-
-        // check if already voted:
-        if (req.isAuthenticated()) {
-          if (voters.indexOf(req.user.id) > -1)
-            voted = 'true';
-        }
-
-        const permalink = req.protocol + '://' + req.get('host') + req.originalUrl; // for allowing the copy paste function
-
-        if (req.isAuthenticated()) {
-          if (req.user && req.user.id && req.user.id === creator) {
-            res.render('poll', { owner: 'true', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
+module.exports = function controller () { // can't use arrow notation here because the this is execution context this and not lexical this
+  this.loadProfile = (req, res) => {
+    /* // req.user isn't defined here yet.
+    console.log('req.user.id before home: ' + req.user.id);
+    console.log('req.session.passport before home: ' + req.session.passport);
+    console.log('req.session.passport.user before home: ' + req.session.passport.user);
+    */
+    console.log('home page');
+    if (req.isAuthenticated()) { // authenticated using which method though?
+      console.log('user is authenticated');
+      // load profile for user
+      console.log('req.user.id is... ' + req.user.id);
+      console.log('req.session is... ' + req.session);
+      /*
+      for (var property in req.session) {
+        console.log(property + '=' + req.session[property]);
+      }*/
+      // borrowed function to analyze the contents of req.session
+      /*
+      var my_stringify2 = function (obj) {
+          var objKeys = Object.keys(obj);
+          var keyValueArray = new Array();
+          for (var i = 0; i < objKeys.length; i++) {
+              var keyValueString = '"' + objKeys[i] + '":';
+              var objValue = obj[objKeys[i]];
+              keyValueString = (typeof objValue == "string") ? 
+                  keyValueString = keyValueString + '"' + objValue + '"' : 
+                  keyValueString = keyValueString + my_stringify2(objValue);
+              keyValueArray.push(keyValueString);
           }
-          else res.render('poll', { owner: 'false', loggedIn: 'true', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });
-        }
-        else res.render('poll', { owner: 'false', loggedIn: 'false', permalink: permalink, path: 'poll', optionText: optionText, voteCount: voteCount, pollTitle: pollTitle, voted: voted });  
+          return "{" + keyValueArray.join(",") + "}";
       }
-    });
+      console.log(my_stringify2(req.session));
+      */
 
+      console.log('req.session.passport.user: ' + req.session.passport.user);
+      User.findOne({ _id: req.user.id }, function (err, user) {
+        if (err) throw err;
+        if (!user) {
+          console.error('This should never happen..');
+        }
+        else {
+          console.log('user: ' + user);
+          console.log('user provider is: ' + user.provider);
+          // load user social media platform used for login
+          if (user.provider === 'twitter') {
+            res.render('index', { loggedIn: 'true', provider: 'Twitter', displayName: user.twitterDisplayName });
+          }
+          else if (user.provider === 'facebook') {
+            res.render('index', { loggedIn: 'true', provider: 'FaceBook', displayName: user.facebookDisplayName });
+          }
+        }
+      });
+    }
+    else res.render('index', { loggedIn: 'false' });
   };
 /*
-  this.updatepoll = (req, res) => {
-    // socket io no room change as it is an update
-
-    // on post on a poll page, do this:
-    // two pieces of essential information is the submit type and the option.
-    console.log('test');
-    console.log('New option submitted: ' + req.body.option);
-  };
-*/
-  this.deletepoll = (req, res) => {
-  
-    Poll.findOneAndRemove({ 'permalink': req.path.slice(6) }).exec(err => {
-      if (err) throw err;
-    });
-
-    res.redirect('/')
+  this.initTwitterAuth = (req, res) {
+    // use the req.user.id as the _id for the user
+    const userID = req.user.id;
 
   };
+  */
+};
 
-}
 
-module.exports = controller;

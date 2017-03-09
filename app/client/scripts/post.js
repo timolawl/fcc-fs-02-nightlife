@@ -4,7 +4,9 @@
 var socket = io();
 
 window.onload = function () {
-  // reveal results and unfix the display of footer
+  var logStatus = document.querySelector('.mainbox__log-button').textContent;
+
+  // on submit, reveal results and unfix the display of footer
   document.querySelector('.mainbox__search').addEventListener('click', e => {
     if (e.target.classList.contains('mainbox__search--submit') && document.querySelector('.mainbox__search--input').value) { // submit button pressed with inputted content
       document.querySelector('footer').classList.remove('footer--unsearched');
@@ -16,25 +18,33 @@ window.onload = function () {
     if (e.target.value || e.target.length !== 0) {
       document.querySelector('.mainbox').classList.add('mainbox--top'); // move mainbox to top
       document.querySelector('.mainbox__search').classList.add('mainbox__search--top'); // left-aign search input
-      document.querySelector('.mainbox__titlerow').classList.add('display--hide');
-      document.querySelector('.mainbox__titlerow--top').classList.remove('display--hide');
-      document.querySelector('.mainbox__subcontent').classList.add('display--hide');
-      document.querySelector('.mainbox__log-button--top').classList.remove('display--hide');
-      /*
-      Array.prototype.forEach.call(document.querySelectorAll('.mainbox__subtitle'), e => {
-        e.classList.add('display--hide');
-      });
-      */
-      // document.querySelector('.mainbox__log-button').classList.add('display--hide');
+      document.querySelector('.mainbox__title-row').classList.add('display--hide');
+      document.querySelector('.mainbox__title-row--top').classList.remove('display--hide');
+      document.querySelector('.mainbox__subtitle-row').classList.add('display--hide');
+      document.querySelector('.mainbox__log-form').classList.add('display--hide');
+      document.querySelector('.mainbox__log-form--top').classList.remove('display--hide');
     }
   });
 
   // When log in button is pressed, unhide overlay and modal
-  document.querySelector('.mainbox__log-button').addEventListener('click', e => {
-    console.log('test');
-    document.querySelector('.overlay').classList.remove('visibility--hide');
-    document.querySelector('.modal').classList.remove('visibility--hide');
-  }); 
+  var logBtnArr = [];
+    logBtnArr.push(document.querySelector('.mainbox__log-button'));
+    logBtnArr.push(document.querySelector('.mainbox__log-button--top'));
+
+  // if log in, make buttons open log in modal
+  if (logStatus === 'Log In') {
+    logBtnArr.forEach(el => el.addEventListener('click', e => {
+      document.querySelector('.overlay').classList.remove('visibility--hide');
+      document.querySelector('.modal').classList.remove('visibility--hide');
+    }));
+  }
+  // else as log out, make buttons log out only
+  /*
+  else logBtnArr.forEach(el => el.addEventListener('click', e => {
+    
+  }));
+  */
+  
 
   // When the modal close button or the overlay is clicked, exit the modal condition
   document.querySelector('.social-login__close').addEventListener('click', () => {
