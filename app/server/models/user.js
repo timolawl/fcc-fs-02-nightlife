@@ -68,10 +68,6 @@ userSchema.statics.findOrCreate = function (profile, cb) {
     if (err) throw err;
     if (!result) {
       console.log('making new profile...');
-      console.log('provider is: ' + profile.provider);
-      //console.log('req.user.id is: ' + req.user.id);
-      //newUser._id = req.user.id;
-      //newUser._id = profile.id; // testing
       newUser.provider = profile.provider;
 
       if (profile.provider === 'facebook') {
@@ -84,7 +80,6 @@ userSchema.statics.findOrCreate = function (profile, cb) {
         newUser.twitterDisplayName = profile.displayName;
       }
       
-      console.log('newUser: ' + newUser);
       newUser.save(cb); // interesting statement
     }
     else cb(err, result);

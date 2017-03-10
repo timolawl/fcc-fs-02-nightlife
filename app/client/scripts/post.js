@@ -4,6 +4,7 @@
 var socket = io();
 
 window.onload = function () {
+
   var logStatus = document.querySelector('.mainbox__log-button').textContent;
 
   Array.prototype.forEach.call(document.querySelectorAll('.mainbox__log-button'), el => el.addEventListener('click', () => {
@@ -20,6 +21,9 @@ window.onload = function () {
   document.querySelector('.mainbox__search').addEventListener('click', e => {
     // on submit button press and with content in input box:
     if (e.target.classList.contains('mainbox__search--submit') && document.querySelector('.mainbox__search--input').value) { // submit button pressed with inputted content
+      // emit socket
+      // server side environmental variables are needed so the ajax call is better off not performed here
+      socket.emit('bar search', { location: document.querySelector('.mainbox__search--input').value });
       document.querySelector('footer').classList.remove('footer--unsearched');
       document.querySelector('.bar-list').classList.remove('visibility--hide');
     }
@@ -30,6 +34,8 @@ window.onload = function () {
     //e.preventDefault();
     var key = e.which || e.keyCode;
     if (key === 13 && document.querySelector('.mainbox__search--input').value) { // on enter key press
+      
+      socket.emit('bar search', { location: document.querySelector('.mainbox__search--input').value });
       document.querySelector('footer').classList.remove('footer--unsearched');
       document.querySelector('.bar-list').classList.remove('visibility--hide');
     }

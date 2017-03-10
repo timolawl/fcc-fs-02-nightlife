@@ -44,8 +44,6 @@ module.exports = function controller () { // can't use arrow notation here becau
           console.error('This should never happen..');
         }
         else {
-          console.log('user: ' + user);
-          console.log('user provider is: ' + user.provider);
           // load user social media platform used for login
           if (user.provider === 'twitter') {
             res.render('index', { loggedIn: 'true', provider: 'Twitter', displayName: user.twitterDisplayName });

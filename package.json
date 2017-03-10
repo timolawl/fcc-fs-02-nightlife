@@ -29,6 +29,7 @@
     "limiter": "^1.1.0",
     "mongoose": "^4.4.12",
     "morgan": "^1.7.0",
+    "node-fetch": "^1.6.3",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-twitter": "^1.0.4",

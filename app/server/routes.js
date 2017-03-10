@@ -21,8 +21,6 @@ module.exports = (app, passport) => {
   app.route('/login/twitter/callback')
     .get(passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
       // the request should have the token etc right? // it's also getting in the url..
-      console.log('spilling contents of the callback..');
-      console.log(req.body);
       // successful authentication, redirect home
       // use socket io implementation for keeping track of input to redisplay after login
       res.redirect('/');

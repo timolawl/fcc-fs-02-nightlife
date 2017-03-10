@@ -1,9 +1,12 @@
 'use strict';
 
 const Poll = require('../../models/poll');
+const fetch = require('node-fetch');
 
 module.exports = io => {
 
+  // acting as route and controller here.
+  // the structured formatting would help for sure..
   
 
   io.on('connection', function(socket) {
@@ -28,98 +31,86 @@ module.exports = io => {
       socket.room = data.room;
       socket.join(socket.room);
     });
-    
-    socket.on('add vote', function (data) {
-      Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
-        if (err) throw err;
-        if (!poll) throw err;
-        else {
-          // get the correct option
-          for (let i = 0; i < poll.options.length; i++) {
-            if (poll.options[i].optionText === data.vote) {
-              poll.options[i].voteCount++;
-              poll.voters.push(userID);
-              poll.lastActivity = new Date();
-              poll.save(err => {
-                if (err) throw err;
-              });
-              break;
-            }
-          }
 
-          // http://stackoverflow.com/questions/10058226/send-response-to-all-clients-except-sender-socket-io
-          io.in(data.path).emit('update poll', { pollOptions: poll.options });
-        }
-      });
+    socket.on('bar search', function (data) {
+      console.log('socket search!');
+      console.log('location: ' + data.location);
+      // get stuff from yelp now..then emit it back to the user
+      // very interesting to perform a REST call inside a socket io method...
+      // but the environmental variables are needed
+      /* // can't do xhr server side unless using a module 
+       * might as well use fetch module instead then
+      var xhr = new XMLHttpRequest();
+      var params = 'grant_type=client_credentials' + '&' +
+        'client_id=' + process.env.YELP_APP_ID + '&' +
+        'client_secret=' + process.env.YELP_APP_SECRET;
+      var url = 'https://api.yelp.com/oauth2/token';
+      xhr.open('POST', url, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) { console.log('xhr response: ' + xhr.responseText); }
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Content-length', params.length);
+        xhr.setRequestHeader('Connection', 'close');
+        xhr.send(params);
+      };
+      */
+      var params = 'grant_type=client_credentials' + '&' +
+        'client_id=' + process.env.YELP_APP_ID + '&' +
+        'client_secret=' + process.env.YELP_APP_SECRET;
+
+      var reqTokenURL = 'https://api.yelp.com/oauth2/token';
+      var searchNearbyURL = 'https://api.yelp.com/v3/businesses/search';
+      var location = 'location=' + encodeURIComponent(data.location);
+      //console.log(location);
+      var completeQueryURL = `${searchNearbyURL}?${location}&categories=bars`;
+      var authorizationHeader = '';
+      
+
+      fetch(reqTokenURL, { method: 'POST', body: params })
+        .then(res => res.json())
+        .then(json => {
+          authorizationHeader = json.token_type + ' ' + json.access_token;
+          // here you want to do the actual search
+          return fetch(completeQueryURL, { method: 'GET', headers: { Authorization: authorizationHeader } })
+        })
+        .then(res => res.json())
+        .then(json => {
+          // needed:
+          // id for lookup
+          // image_url for displaying the image
+          // url
+          // name
+          //
+          // no need to save any to the db unless voted upon
+          // but for holding search, can hold in memory?
+          // if I do more than 6 entries, then I'll also need to remember the page
+          // upon redirect
+          //
+          // maybe just save the most recent search and page for the redirects..
+          // and if the redirect was from a login, then show the same as before
+          // however, it may actually be better to have a loaded page with
+          // query strings with the search parameters at the top
+          // then redirect to that and it would be easy to pull up right?
+          // problem with that approach is that it can be XSSed and script injected
+          //
+          // or i can only get the query string when it is generated and then i store it
+          // should never be from the bar to the server, only from server to server
+          // are SPAs overrated? should I separate out the events?.
+          
+          json.businesses.map(business => {
+          //  business.
+          });
+
+          // data needed:
+          // json.businesses (the businesses array)
+          // json.businesses.map(x => {});
+          //
+          // business id (for review lookup)
+          // 
+          console.log(json);
+
+          // here you want to look up the top review
+        });
     });
-
-    socket.on('add option', function (data) {
-      Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
-        if (err) throw err;
-        if (!poll) throw err;
-        else {
-          let duplicate = false;
-
-          // check if unique first, if not add to existing.
-          for (let i = 0; i < poll.options.length; i++) {
-            if (poll.options[i].optionText === data.option) { // currently case matters
-              poll.options[i].voteCount++;
-              poll.voters.push(userID);
-              poll.lastActivity = new Date();
-              poll.save(err => {
-                if (err) throw err;
-              });
-              duplicate = true;
-              break;
-            }
-          }
-          if (!duplicate) {
-            poll.options.push({ optionText: data.option, voteCount: 1 });
-            poll.voters.push(userID);
-            poll.save(err => {
-              if (err) throw err;
-            });
-          }
-          io.in(data.path).emit('update poll', { pollOptions: poll.options });
-        }
-      }); 
-    });
-    
-    socket.on('vote check', function (data) {
-      // check the vote status of current user
-       Poll.findOne({ 'permalink': data.path }).exec((err, poll) => {
-        if (err) throw err;
-        if (!poll) throw err;
-        else {
-          let voters = poll.voters;
-          if (voters.indexOf(userID) >= -1) {
-            // voted
-            socket.emit('voted', {});
-          }
-        }
-      });
-
-    });
-
-    socket.on('list all polls', function (data) {
-      Poll.find().sort({ lastActivity: -1 }).exec((err, polls) => {
-        let pollNames = polls.map(x => x.title);
-        let pollLinks = polls.map(x => x.permalink);
-        // need the permalink and the title.
-        socket.emit('populate all polls', { titles: pollNames, permalinks: pollLinks });
-      });
-    });
-
-    socket.on('list my polls', function (data) {
-      Poll.find({ _creator: userID }).sort({ lastActivity: -1 }).exec((err, polls) => {
-        let pollNames = polls.map(x => x.title);
-        let pollLinks = polls.map(x => x.permalink);
-        // need the permalink and the title.
-        socket.emit('populate my polls', { titles: pollNames, permalinks: pollLinks });
-      });
-
-    });
-
   });
-
 };

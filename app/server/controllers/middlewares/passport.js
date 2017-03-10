@@ -49,13 +49,6 @@ module.exports = passport => {
     },
     function (token, tokenSecret, profile, cb) {
       process.nextTick(() => {
-        console.log('hello?');
-        console.log('profile id: ' + profile.id);
-        console.log('token: ' + token);
-        console.log('tokenSecret: ' + tokenSecret);
-        console.log('profile: ' + profile);
-        console.log('profile.provider: ' + profile.provider);
-        console.log('profile.displayName: ' + profile.displayName);
         User.findOrCreate(profile, function (err, user) {
           return cb(err, user);
         });
