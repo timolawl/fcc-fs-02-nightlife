@@ -269,7 +269,7 @@ p {
   }
 
   &__log {
-    &-form {
+    &-row {
       // main page only
       margin-top: 0.5rem;
       &--top {
@@ -277,10 +277,11 @@ p {
       }
     }
     &-button {
-      margin-left: 50%;
-      transform: translateX(-50%);
+      &--main {
+        margin-left: 50%;
+        transform: translateX(-50%);
+      }
       &--top {
-        //display: inline-block;
         vertical-align: middle;
         margin: 0;
         margin-left: 1.5rem; 
@@ -294,7 +295,7 @@ p {
     color: #999;
     &--top {
       @media (min-width: 1200px) {
-        margin-left: 1.5rem; // what to do when the width of the screen is too narrow to fit?
+        margin-left: 1.5rem;
       }
       @media (max-width: 1199px) {
         display: none;
@@ -307,7 +308,7 @@ p {
   &-list { // section for entire bar list
     width: 80%;
     max-width: 960px;
-    margin: 1rem auto; // can't magic number the top because the top bar isn't guaranteed
+    margin: 1rem auto;
     // at the moment to be of a certain height
 
     margin-top: calc(72px + 0.5rem); // 40px base top-bar height + 12px top/bottom padding = 72px;

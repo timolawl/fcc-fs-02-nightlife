@@ -73,11 +73,17 @@ userSchema.statics.findOrCreate = function (profile, cb) {
       //newUser._id = req.user.id;
       //newUser._id = profile.id; // testing
       newUser.provider = profile.provider;
-      newUser.twitterID = profile.id; // do I need to save token and token secret?
-      newUser.twitterDisplayName = profile.displayName;
-                                      // also, do I need to save the profile name here
-                                      // for showing the login information?
-                                      // I think so, otherwise I won't be able to pass
+
+      if (profile.provider === 'facebook') {
+        newUser.facebookID = profile.id;
+        newUser.facebookDisplayName = profile.displayName;
+      }
+
+      if (profile.provider === 'twitter') {
+        newUser.twitterID = profile.id; // do I need to save token and token secret?
+        newUser.twitterDisplayName = profile.displayName;
+      }
+      
       console.log('newUser: ' + newUser);
       newUser.save(cb); // interesting statement
     }

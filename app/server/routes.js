@@ -9,6 +9,11 @@ module.exports = (app, passport) => {
   app.route('/')
     .get(controller.loadProfile);
 
+  app.route('/login/facebook')
+    .get(passport.authenticate('facebook'));
+
+  app.route('/login/facebook/callback')
+    .get(passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
 
   app.route('/login/twitter')
     .get(passport.authenticate('twitter'));
@@ -19,6 +24,7 @@ module.exports = (app, passport) => {
       console.log('spilling contents of the callback..');
       console.log(req.body);
       // successful authentication, redirect home
+      // use socket io implementation for keeping track of input to redisplay after login
       res.redirect('/');
     });
       

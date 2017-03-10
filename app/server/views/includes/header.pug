@@ -7,7 +7,7 @@ html(lang='en')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css' integrity='sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=' crossorigin='anonymous')
     link(rel='stylesheet' href='/static/css/style.css')
   body
-    .modal.visibility--hide(class='text-center')
+    .modal.display--hide(class='text-center')
       .modal--title Log In
       form(method='GET')
         button.social-login__button.social-login__button--twitter(type='submit' formaction='/login/twitter')
@@ -28,25 +28,25 @@ html(lang='en')
       .mainbox__title-row--top.display--hide(class='row')
         .mainbox__title.mainbox__title--bn(class='text-left')
           a(href='/') bar none.
-      form.mainbox__search(method='GET')
+      .mainbox__search
         .mainbox__input(class='input-group')
           input.mainbox__search--input(type='text' placeholder='Search for bars around...' class='input-group-field')
           a.mainbox__search--submit(class='input-group-button button secondary') Search
-      form.mainbox__log-form--top.display--hide(method='GET')
+      .mainbox__log-row--top.display--hide
         if loggedIn === 'false'  
-          button.mainbox__log-button--top(type='button' class='button secondary' role='button') Log In
+          button.mainbox__log-button.mainbox__log-button--top(type='button' class='button secondary' role='button') Log In
         if loggedIn === 'true'
-          button.mainbox__log-button--top(type='submit' class='button secondary' formaction='/logout' role='button') Log Out
+          button.mainbox__log-button.mainbox__log-button--top(type='submit' class='button secondary' role='button') Log Out
       .mainbox__login-details.mainbox__login-details--top.display--hide Logged in as #{displayName} via #{provider}.
-      .mainbox__subtitle-row(method='GET' class='text-center')
+      .mainbox__subtitle-row(class='text-center')
         span.mainbox__subtitle-row--fcc(class='text-center') A 
           a(href='https://www.freecodecamp.com') Free Code Camp 
         span.mainbox__subtitle-row--fcc Project
         br
-      form.mainbox__log-form(method='GET')
+      .mainbox__log-row
         if loggedIn === 'false'
-          button.mainbox__log-button(type='button' class='button secondary' role='button') Log In
+          button.mainbox__log-button.mainbox__log-button--main(type='button' class='button secondary' role='button') Log In
         if loggedIn === 'true'
-          button.mainbox__log-button(type='submit' class='button secondary' formaction='/logout' role='button') Log Out
+          button.mainbox__log-button.mainbox__log-button--main(type='submit' class='button secondary' role='button') Log Out
           .mainbox__login-details Logged in as #{displayName} via #{provider}.
     .overlay.visibility--hide

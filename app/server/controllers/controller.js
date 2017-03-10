@@ -51,7 +51,7 @@ module.exports = function controller () { // can't use arrow notation here becau
             res.render('index', { loggedIn: 'true', provider: 'Twitter', displayName: user.twitterDisplayName });
           }
           else if (user.provider === 'facebook') {
-            res.render('index', { loggedIn: 'true', provider: 'FaceBook', displayName: user.facebookDisplayName });
+            res.render('index', { loggedIn: 'true', provider: 'Facebook', displayName: user.facebookDisplayName });
           }
         }
       });
