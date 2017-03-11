@@ -133,3 +133,69 @@ function toggleView (inputLength, logoutAction, logStatus) {
     
   }
 }
+
+socket.on('bar results', function (data) {
+  console.log('socket emission received...');
+  const yelpReviews = data.reviews;
+  let listings = document.createDocumentFragment();
+  listings.className = 'visibility--hide';
+  console.log('business length: ' + yelpReviews.length);
+  for (let listingNumber = 0; listingNumber < yelpReviews.length; listingNumber++) {
+    console.log('o hi there...');
+    let currentRow;
+    if (listingNumber === 0 || listingNumber % 3 === 0) {
+      //create new row
+      let newRow = document.createElement('div')
+      newRow.className = 'row';
+      listings.appendChild(newRow);
+      currentRow = newRow;
+    }
+    else {
+      currentRow = listings.querySelector('.row:last-of-type')
+    }
+
+    createListing(yelpReviews[listingNumber], currentRow);
+  }
+
+  document.querySelector('.bar-list').appendChild(listings);
+});
+
+function createListing (business, row) {
+  console.log('making listings..');
+  let widthContainer = document.createElement('div');
+  widthContainer.className = 'column medium-4 large-4';
+  row.appendChild(widthContainer);
+  let card = document.createElement('div');
+  card.className = 'card';
+  widthContainer.appendChild(card);
+  let cardSection = document.createElement('div');
+  cardSection.className = 'card-section text-center';
+  card.appendChild(cardSection);
+  let img = document.createElement('img');
+  img.className = 'img-fluid img-thumbnail mx-auto d-block';
+  img.src = business.image_url;
+  cardSection.appendChild(img);
+  let barTitle = document.createElement('h6');
+  let barLink = document.createElement('a');
+  barLink.className = 'bar__title';
+  barLink.href = business.url;
+  barLink.textContent = business.name;
+  barTitle.appendChild(barLink);
+  cardSection.appendChild(barTitle);
+  let barReview = document.createElement('p');
+  barReview.className = 'card-text text-justify';
+  barReview.textContent = business.excerpt;
+  cardSection.appendChild(barReview);
+  let goingButton = document.createElement('button');
+  goingButton.className = 'button secondary';
+  goingButton.setAttribute('type', 'button');
+  cardSection.appendChild(goingButton);
+  let goingCount = document.createElement('span');
+  goingCount.className = 'badge secondary';
+  goingCount.textContent = '0';
+  goingButton.appendChild(goingCount);
+  let goingText = document.createElement('span');
+  goingText.className = 'bar__going--text';
+  goingText.textContent = 'Going';
+    goingButton.appendChild(goingText);
+}

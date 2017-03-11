@@ -58,19 +58,21 @@ module.exports = io => {
         xhr.send(params);
       };
       */
-      var params = 'grant_type=client_credentials' + '&' +
+      const params = 'grant_type=client_credentials' + '&' +
         'client_id=' + process.env.YELP_APP_ID + '&' +
         'client_secret=' + process.env.YELP_APP_SECRET;
 
-      var reqTokenURL = 'https://api.yelp.com/oauth2/token';
-      var searchNearbyURL = 'https://api.yelp.com/v3/businesses/search';
-      var location = 'location=' + encodeURIComponent(data.location);
+      const reqTokenURL = 'https://api.yelp.com/oauth2/token';
+      const searchNearbyURL = 'https://api.yelp.com/v3/businesses/search';
+      const location = 'location=' + encodeURIComponent(data.location);
       //console.log(location);
      // socket.request.session.searchLocation = data.location;
       console.log(socket.request.session);
       console.log('socket session id: ' + socket.request.session.id);
-      var completeQueryURL = `${searchNearbyURL}?${location}&categories=bars`;
-      var authorizationHeader = '';
+      const businessesQueryURL = `${searchNearbyURL}?${location}&categories=bars`;
+      let authorizationHeader = '';
+
+      var yelpSearchResults = {}; // temporary storage in order to add in the one review
       
 
       fetch(reqTokenURL, { method: 'POST', body: params })
@@ -78,7 +80,7 @@ module.exports = io => {
         .then(json => {
           authorizationHeader = json.token_type + ' ' + json.access_token;
           // here you want to do the actual search
-          return fetch(completeQueryURL, { method: 'GET', headers: { Authorization: authorizationHeader } })
+          return fetch(businessesQueryURL, { method: 'GET', headers: { Authorization: authorizationHeader } })
         })
         .then(res => res.json())
         .then(json => {
@@ -87,7 +89,65 @@ module.exports = io => {
           // image_url for displaying the image
           // url
           // name
+          
+          // yelpSearchResults = Object.create(json);
+          // console.log(yelpSearchResults);
           //
+          //yelpSearchResults = json.businesses.slice(0); // clone the business array
+          //console.log(yelpSearchResults);
+
+          let promises = json.businesses.slice(0).map(business => {
+            var businessReviewURL = `https://api.yelp.com/v3/businesses/${business.id}/reviews`;
+            return fetch(businessReviewURL, { method: 'GET', headers: { Authorization: authorizationHeader } })
+              .then(res => res.json())
+              .then(json => {
+                if (json.reviews[0]) {
+                  business.excerpt = json.reviews[0].text; // save excerpt
+                }
+                return business;
+              });
+          });
+
+          Promise.all(promises).then(businessListings => {
+            // returned data is in arguments[0], arguments[1]...
+            console.log('all excerpts received!');
+            //console.log(businessListings);
+            // retrieve only the relevant statistics
+            let yelpReviews = businessListings.map(businessListing => {
+              const condensedReview = {};
+              //condensedReview.id = businessListing.id;
+              condensedReview.image_url = businessListing.image_url;
+              condensedReview.url = businessListing.url;
+              condensedReview.name = businessListing.name;
+              condensedReview.excerpt = businessListing.excerpt;
+              return condensedReview;
+            });
+
+           // console.log(yelpReviews);
+
+            socket.emit('bar results', { reviews: yelpReviews });
+
+
+          }, function (err) {
+            console.error('rip..');
+          });
+          
+
+          //console.log(yelpSearchResults);
+
+
+          // send this to the client through a socket emit
+          // then socket.on the data and have the client build the content client side.
+          //for (let i = 0; i < json.businesses.length; i++) {
+          //  json.businesses[i]
+          //}
+          
+          // store the businesses in an object first
+
+
+          //socket.emit('bar results', { results: json.businesses });
+
+
           // no need to save any to the db unless voted upon
           // but for holding search, can hold in memory?
           // if I do more than 6 entries, then I'll also need to remember the page

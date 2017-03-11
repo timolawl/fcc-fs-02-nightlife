@@ -1,11 +1,12 @@
 include /includes/header.pug
 section.bar-list.visibility--hide
+//
   div(class='row')
     div(class='column medium-4 large-4')
       div(class='card')
         div(class='card-section text-center')
           img(src='http://placehold.it/150x150' class='img-fluid img-thumbnail mx-auto d-block' alt='bar1')
-          h6.bar__title(class='card-title') Bar 1
+          h6: a.bar__title(href='/#bar1') Bar 1
           p.bar__review(class='card-text text-justify') Snippet of top review blah blah bleh yeah this tastes very good it's so good on my palette it just melts mmm yum
           button(class='button secondary' type='button')
             span(class='badge secondary') 0

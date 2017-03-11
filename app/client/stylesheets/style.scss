@@ -31,19 +31,27 @@ $highlight-color: #F29D35; // lamplight #f15a29; // was orange
 }
 
 a {
-    &:link {
+  /*
+    &:link { // specificity is 0011 here
         text-decoration: none;
         color: #999;
     }
-    &:visited {
-        color: #999;
-    }
-    &:hover {
-        color: $highlight-color;
-    }
-    &:active {
-        color: $highlight-color;
-    }
+    */
+  // doing the following makes the specificity 0001 so as to not override
+  // class-based styling
+  text-decoration: none;
+  color: #999;
+  transition: color 0.25s ease-out; 
+
+  &:visited {
+      color: #999;
+  }
+  &:hover {
+      color: $highlight-color;
+  }
+  &:active {
+      color: $highlight-color;
+  }
 }
 
 
@@ -114,6 +122,7 @@ p {
   //min-height: 2.1em;
   padding: 0.5em;
   vertical-align: middle;
+  
   &.secondary {
     // background-color: #024059;
     background-color: #024059; // $primary-color;
@@ -317,7 +326,8 @@ p {
   
   &__title {
     margin-bottom: 0;
-    color: $highlight-color;
+    //color: $highlight-color;
+    font-weight: bold;
   }
   &__review {
     color: #999;
