@@ -9,8 +9,6 @@ const userSchema = new mongoose.Schema({
   // specify and it won't be auto generated
   twitterID           : { type: String, unique: true },
   twitterDisplayName  : { type: String, unique: true },
-  twitterToken        : { type: String, unique: true, select: false },
-  twitterTokenSecret  : { type: String, unique: true, select: false },
   facebookID          : { type: String, unique: true },
   facebookDisplayName : { type: String, unique: true },
   provider            : String // the provider with which the user authenticated

@@ -51,8 +51,9 @@ window.onload = function () {
       //basically conductSearch in reverse
       document.querySelector('.bar-list').classList.add('visibility--hide');
       document.querySelector('footer').classList.add('footer--unsearched');
-
-      toggleView(0, true, logStatus); // passing a length of 0
+      if (document.querySelector('.mainbox').classList.contains('mainbox--top')) {
+        toggleView(0, true, logStatus); // passing a length of 0
+      }
       location.href = '/logout'; 
     }
   }));
@@ -76,14 +77,6 @@ window.onload = function () {
       conductSearch(searchInput);
     }
   });
-
-  // on clicking attend and not logged in, need to save this and return user to same page/state
-  // on clicking login with a search queried, need to return user to same page/state
-  // basically these two scenarios need to elicit a save that will be restored after login
-  // store it in a temporary document? then transfer content?
-  // even so, I need to link the search with the user to login
-  
-  
 
 
   // when there is input, change view to have search bar at the top of the page
