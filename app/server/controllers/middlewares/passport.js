@@ -31,9 +31,9 @@ module.exports = passport => {
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "http://localhost:5000/login/facebook/callback"
     },
-    function(accessToken, refreshToken, profile, done) {
+    function (accessToken, refreshToken, profile, done) {
       process.nextTick(() => {
-        User.findOrCreate(profile, function(err, user) {
+        User.findOrCreate(profile, function (err, user) {
           if (err) { return done(err); }
           done(null, user);
         });

@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../models/user.js');
+//const socket = require('./middleware/socketio');
 
 module.exports = function controller () { // can't use arrow notation here because the this is execution context this and not lexical this
   this.loadProfile = (req, res) => {
@@ -59,8 +60,8 @@ module.exports = function controller () { // can't use arrow notation here becau
 /*
   this.initTwitterAuth = (req, res) {
     // use the req.user.id as the _id for the user
-    const userID = req.user.id;
-
+    console.log('Socket search location: ' + socket.request.session.searchLocation);
+    passport.authenticate('twitter');
   };
   */
 };

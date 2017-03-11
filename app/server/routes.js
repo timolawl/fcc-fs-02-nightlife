@@ -19,12 +19,7 @@ module.exports = (app, passport) => {
     .get(passport.authenticate('twitter'));
 
   app.route('/login/twitter/callback')
-    .get(passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
-      // the request should have the token etc right? // it's also getting in the url..
-      // successful authentication, redirect home
-      // use socket io implementation for keeping track of input to redisplay after login
-      res.redirect('/');
-    });
+    .get(passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
       
       
   
