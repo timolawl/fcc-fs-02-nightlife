@@ -1,6 +1,13 @@
-$primary-color: #011C40; // darkblue #add8e6; // lightblue
-$secondary-color: #271F1C; // darkbrown #808080; // gray
+$primary-color: #024059; // darkteal //#011C40; // darkblue #add8e6; // lightblue
+$secondary-color: #999; // gray #808080; // gray
 $highlight-color: #F29D35; // lamplight #f15a29; // was orange
+$background-color: #011C40; // darkblue
+
+// z-index values:
+$base-layer: 1;
+$mainbox-layer: 10;
+$overlay-layer: 100;
+$modal-layer: 1000;
 
 /********************************************************/
 // helpers
@@ -34,17 +41,17 @@ a {
   /*
     &:link { // specificity is 0011 here
         text-decoration: none;
-        color: #999;
+        color: $secondary-color;
     }
     */
   // doing the following makes the specificity 0001 so as to not override
   // class-based styling
   text-decoration: none;
-  color: #999;
+  color: $secondary-color;
   transition: color 0.25s ease-out; 
 
   &:visited {
-      color: #999;
+      color: $secondary-color;
   }
   &:hover {
       color: $highlight-color;
@@ -56,25 +63,13 @@ a {
 
 
 body {
-  background: $primary-color;
-  // height: 100vh;
-  
+  background: $background-color;
 }
 
 section { // by default let section take up 80% width of the body
-  /*
   width: 80%;
   max-width: 960px;
   margin: 1rem auto;
-  */
-  /*
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  */
 }
 
 
@@ -84,29 +79,7 @@ button {
   }
 }
 
-/*
-button {
-  outline: none; // removes default button highlighting
-  border: none;
-  &:disabled {
-    color: #999;
-  }
-}
 
-input {
-  padding: 0 0.5rem;
-  &[type='submit'] {
-    border: none;
-  }
-  &[type='button'] {
-    outline: none;
-    border: none;
-  }
-  &:disabled {
-    color: #999;
-  }
-}
-*/
 /********************************************************/
 //
 
@@ -119,13 +92,11 @@ p {
 }
 
 .badge {
-  //min-height: 2.1em;
   padding: 0.5em;
   vertical-align: middle;
   
   &.secondary {
-    // background-color: #024059;
-    background-color: #024059; // $primary-color;
+    background-color: $primary-color; // $primary-color;
   }
 
 }
@@ -133,7 +104,7 @@ p {
 .button {
   margin: 0;
   &.secondary {
-    background-color: #999;
+    background-color: $secondary-color;
     &:hover {
       background-color: $highlight-color;
     }
@@ -141,13 +112,13 @@ p {
   &.success {
    background-color: $highlight-color;
    &:hover {
-    background-color: #999;
+    background-color: $secondary-color;
    }
   }
 }
 
 .callout {
-  background-color: #024059;
+  background-color: $primary-color;
   //border: 1px solid $highlight-color; //  #fefefe;
   border: none;
   margin: 0;
@@ -155,8 +126,7 @@ p {
 }
 
 .card {
-  background-color: #024059;
-  //border: 1px solid $highlight-color;
+  background-color: $primary-color;
   border: none;
   margin: 0.5rem;
 }
@@ -189,40 +159,34 @@ p {
   width: 100%;
   background: #000;
   opacity: 0.5;
-  z-index: 100; // show mainbox and search results
+  z-index: $overlay-layer; // show mainbox and search results
 }
 
 .modal {
-  //display: none;
   position: fixed;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  //width: 50%;
-  //max-width: 640px;
-  //min-width: 320px;
   padding: 2rem 6rem 4rem;
   height: auto;
-  z-index: 1000; // show over everything else
-  //text-align: center;
-  background: #024059;
+  z-index: $modal-layer; // show over everything else
+  background: $primary-color;
   &--title {
     font-family: Bevan;
     font-size: 1.5rem;
-    color: #999;
+    color: $secondary-color;
     margin-bottom: 2rem;
   }
 }
 
 .mainbox {
   position: fixed;
-  z-index: 10; // show over the results
+  z-index: $mainbox-layer; // show over the results
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: calc(80% - 2 * 0.5rem);
   max-width: calc(720px - 2 * 0.5rem);
-  //padding: 0;
 
   &--top {
     top: 0;
@@ -256,7 +220,7 @@ p {
     color: $highlight-color;
 
     &--nc {
-      color: #999;
+      color: $secondary-color;
     }
 
     &--top {
@@ -275,7 +239,7 @@ p {
   &__subtitle-row {
     &--fcc {
       font-size: 0.8rem;
-      color: #999; // $highlight-color; //  #D9B282;
+      color: $secondary-color; // $highlight-color; //  #D9B282;
     }
   }
 
@@ -303,7 +267,7 @@ p {
   &__login-details {
     font-size: 0.8rem;
     display: inline-block;
-    color: #999;
+    color: $secondary-color;
     &--top {
       @media (min-width: 1200px) {
         margin-left: 1.5rem;
@@ -321,7 +285,6 @@ p {
     max-width: 960px;
     margin: 1rem auto;
     // at the moment to be of a certain height
-
     margin-top: calc(72px + 0.5rem); // 40px base top-bar height + 12px top/bottom padding = 72px;
   }
 
@@ -332,7 +295,7 @@ p {
     font-weight: bold;
   }
   &__review {
-    color: #999;
+    color: $secondary-color;
   }
   &__going {
     &--text {
@@ -380,7 +343,6 @@ p {
   }
 
   &__icon {
-    //border-right: 1px solid white;
   
     &--twitter {
       margin-right: 0.25rem;
@@ -432,7 +394,7 @@ p {
 /********************************************************/
 // footer
 footer {
-  color: #999;  
+  color: $secondary-color;  
   text-align: center;
   margin: 2rem auto;
 }
