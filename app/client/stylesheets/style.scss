@@ -189,6 +189,7 @@ p {
   width: 100%;
   background: #000;
   opacity: 0.5;
+  z-index: 100; // show mainbox and search results
 }
 
 .modal {
@@ -202,7 +203,7 @@ p {
   //min-width: 320px;
   padding: 2rem 6rem 4rem;
   height: auto;
-  z-index: 100;
+  z-index: 1000; // show over everything else
   //text-align: center;
   background: #024059;
   &--title {
@@ -215,7 +216,7 @@ p {
 
 .mainbox {
   position: fixed;
-  z-index: 1000; // show over the results
+  z-index: 10; // show over the results
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);

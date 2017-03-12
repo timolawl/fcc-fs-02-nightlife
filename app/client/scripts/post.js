@@ -105,12 +105,22 @@ window.onload = function () {
 
 
 function conductSearch (searchValue) {
+  // remove previous results
+  if (document.querySelector('.masonry-element')) {
+    let bars = document.querySelector('.bar-list');
+    bars.style = 'position: relative; height: 0';
+    document.querySelector('footer').classList.add('footer--unsearched');
+
+    while (bars.firstChild) {
+      bars.removeChild(bars.firstChild);
+    }
+  }
+  // send request to server to send request to yelp API
   socket.emit('bar search', { location: searchValue });
   // store the most recent search location in sessionStorage
   sessionStorage.setItem('searchLocation', searchValue);
   console.log('session storage set: ' + sessionStorage.getItem('searchLocation'));
 
-  document.querySelector('footer').classList.remove('footer--unsearched');
   document.querySelector('.bar-list').classList.remove('visibility--hide');
 
 }
@@ -173,6 +183,8 @@ socket.on('bar results', function (data) {
       columnWidth: '.masonry-element--sizer',
       percentPosition: true
     });
+
+    document.querySelector('footer').classList.remove('footer--unsearched');
   });
 
 /*

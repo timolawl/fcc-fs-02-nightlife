@@ -1,6 +1,5 @@
 'use strict';
 
-const Poll = require('../../models/poll');
 const fetch = require('node-fetch');
 
 module.exports = io => {
