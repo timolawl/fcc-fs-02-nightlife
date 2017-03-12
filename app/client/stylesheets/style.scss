@@ -215,6 +215,7 @@ p {
 
 .mainbox {
   position: fixed;
+  z-index: 1000; // show over the results
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -341,6 +342,9 @@ p {
 
 }
 
+.masonry-element, .masonry-element--sizer {
+  width: 33.3%;
+}
 
 .marker {
   height: 2rem;

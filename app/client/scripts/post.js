@@ -139,9 +139,12 @@ socket.on('bar results', function (data) {
   const yelpReviews = data.reviews;
   let listings = document.createDocumentFragment();
   listings.className = 'visibility--hide';
-  console.log('business length: ' + yelpReviews.length);
+  let masonrySizer = document.createElement('div');
+  masonrySizer.className = 'masonry-element--sizer';
+  listings.appendChild(masonrySizer);
+  //console.log('business length: ' + yelpReviews.length);
   for (let listingNumber = 0; listingNumber < yelpReviews.length; listingNumber++) {
-    console.log('o hi there...');
+    /*
     let currentRow;
     if (listingNumber === 0 || listingNumber % 3 === 0) {
       //create new row
@@ -155,16 +158,55 @@ socket.on('bar results', function (data) {
     }
 
     createListing(yelpReviews[listingNumber], currentRow);
+    */
+    createListing(yelpReviews[listingNumber], listings);
   }
 
+  //document.querySelector('.bar-list').appendChild(listings);
+
+  let images = listings.querySelectorAll('.img-fluid');
+
+  imagesLoaded(images, () => { // after all images have been loaded on the fragment
+    document.querySelector('.bar-list').appendChild(listings); // append the fragment and start up masonry
+    var msnry = new Masonry(document.querySelector('.bar-list'), {
+      itemSelector: '.masonry-element',
+      columnWidth: '.masonry-element--sizer',
+      percentPosition: true
+    });
+  });
+
+/*
+  var grid = document.querySelector('.bar-list').imagesLoaded( () => {
+    grid.masonry({
+      itemSelector: '.masonry-element',
+      columnWidth: '.masonry-element--sizer',
+      percentPosition: true
+    });
+  });
+*/
+  /*
   document.querySelector('.bar-list').appendChild(listings);
+
+  document.querySelector('.bar-list').imagesLoaded( () => {
+    document.querySelector('.bar-list  
+  });
+  */
+/*
+  var msnry = new Masonry('.bar-list', {
+    itemSelector: '.masonry-element',
+    columnWidth: '.masonry-element--sizer',
+    percentPosition: true
+  });
+  */
+
 });
 
-function createListing (business, row) {
+function createListing (business, listing) {
   console.log('making listings..');
   let widthContainer = document.createElement('div');
-  widthContainer.className = 'column medium-4 large-4';
-  row.appendChild(widthContainer);
+  widthContainer.className = 'masonry-element'; // column medium-4 large-4';
+  //row.appendChild(widthContainer);
+  listing.appendChild(widthContainer);
   let card = document.createElement('div');
   card.className = 'card';
   widthContainer.appendChild(card);
