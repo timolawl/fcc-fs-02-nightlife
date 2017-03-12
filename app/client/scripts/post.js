@@ -108,20 +108,21 @@ function conductSearch (searchValue) {
   // remove previous results
   if (document.querySelector('.masonry-element')) {
     let bars = document.querySelector('.bar-list');
-    bars.style = 'position: relative; height: 0';
+    bars.style = 'position: relative';
     document.querySelector('footer').classList.add('footer--unsearched');
 
     while (bars.firstChild) {
       bars.removeChild(bars.firstChild);
     }
   }
+  // show cog loader while loading...
+  document.querySelector('.bar-list__loader').classList.remove('display--hide');
   // send request to server to send request to yelp API
   socket.emit('bar search', { location: searchValue });
   // store the most recent search location in sessionStorage
   sessionStorage.setItem('searchLocation', searchValue);
   console.log('session storage set: ' + sessionStorage.getItem('searchLocation'));
 
-  document.querySelector('.bar-list').classList.remove('visibility--hide');
 
 }
 
@@ -177,6 +178,8 @@ socket.on('bar results', function (data) {
   let images = listings.querySelectorAll('.img-fluid');
 
   imagesLoaded(images, () => { // after all images have been loaded on the fragment
+
+    document.querySelector('.bar-list__loader').classList.add('display--hide');
     document.querySelector('.bar-list').appendChild(listings); // append the fragment and start up masonry
     var msnry = new Masonry(document.querySelector('.bar-list'), {
       itemSelector: '.masonry-element',

@@ -4,10 +4,18 @@ $highlight-color: #F29D35; // lamplight #f15a29; // was orange
 $background-color: #011C40; // darkblue
 
 // z-index values:
+/*
 $base-layer: 1;
 $mainbox-layer: 10;
 $overlay-layer: 100;
 $modal-layer: 1000;
+*/
+
+$zindex: (
+  modal:    9000,
+  overlay:  8000,
+  mainbox:  7000
+);
 
 /********************************************************/
 // helpers
@@ -159,7 +167,7 @@ p {
   width: 100%;
   background: #000;
   opacity: 0.5;
-  z-index: $overlay-layer; // show mainbox and search results
+  z-index: map-get($zindex, overlay); // show mainbox and search results
 }
 
 .modal {
@@ -169,7 +177,7 @@ p {
   transform: translate(-50%, -50%);
   padding: 2rem 6rem 4rem;
   height: auto;
-  z-index: $modal-layer; // show over everything else
+  z-index: map-get($zindex, modal); // show over everything else
   background: $primary-color;
   &--title {
     font-family: Bevan;
@@ -181,7 +189,7 @@ p {
 
 .mainbox {
   position: fixed;
-  z-index: $mainbox-layer; // show over the results
+  z-index: map-get($zindex, mainbox); // show over the results
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -279,6 +287,13 @@ p {
   }
 }
 
+@keyframes rotation {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+
 .bar { 
   &-list { // section for entire bar list
     width: 80%;
@@ -286,6 +301,33 @@ p {
     margin: 1rem auto;
     // at the moment to be of a certain height
     margin-top: calc(72px + 0.5rem); // 40px base top-bar height + 12px top/bottom padding = 72px;
+    &__loader {
+      width: 10%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      //transform: translate(-50%, -50%);
+      animation-name: rotation;
+      animation-duration: 3s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      transform-origin: 50% 50%;
+
+     
+      .ct0, .ct1 {
+        stroke: #999;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+      .ct0 {
+        fill: none;
+      }
+      .ct1 {
+        fill: none;
+      }
+    }
   }
 
   
