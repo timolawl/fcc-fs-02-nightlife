@@ -39,16 +39,3 @@ module.exports = (app, passport) => {
 
 
 };
-
-function isLoggedIn (req, res, next) {
-  if (req.isAuthenticated()) // isAuthenticated is a passport JS add-on method
-    return next();
-  res.redirect('/');
-}
-
-function isNotLoggedIn (req, res, next) {
-  if (req.isAuthenticated())
-    res.redirect('/');
-  else return next();
-}
-
