@@ -2,7 +2,7 @@
 
 // can't use import natively yet as V8 doesn't have support for it yet.
 
-require('dotenv').config(); // loads env vars (don't need in prod)
+// require('dotenv').config(); // loads env vars (don't need in prod)
 
 // built-in requires
 const path = require('path'); // for joining paths
@@ -42,7 +42,7 @@ const passport = require('passport');
 
 
 // development requires
-const morgan = require('morgan'); // allows for every HTTP request to be logged to console
+// const morgan = require('morgan'); // allows for every HTTP request to be logged to console
 
 
 // custom requires
@@ -78,7 +78,7 @@ app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
 
 
 
-app.use(morgan('dev')); // log every request to console.
+// app.use(morgan('dev')); // log every request to console.
 
 // configure the session
 const sessionMiddleware = session({

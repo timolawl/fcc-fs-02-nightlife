@@ -80,9 +80,6 @@ module.exports = io => {
           });
 
           Promise.all(promises).then(businessListings => {
-            // returned data is in arguments[0], arguments[1]...
-            // retrieve only the relevant statistics
-            
             let businessIDs = businessListings.map(business => business.id);
 
             let yelpReviews = businessListings.map(businessListing => {
@@ -108,7 +105,7 @@ module.exports = io => {
                 let businessToUpdateIndex = yelpReviews.findIndex(biz => biz.id === doc.name);
                 if (businessToUpdateIndex > -1) { // business found
                   yelpReviews[businessToUpdateIndex].guestCount = doc.guestCount;
-                  if (doc.guestList.find(user => user === userID)) {
+                  if (doc.guestList.find(user => user === userID)) { // user found
                     yelpReviews[businessToUpdateIndex].attending = true;
                   }
                 }
@@ -122,6 +119,7 @@ module.exports = io => {
 
 
           }, function (err) {
+            console.log(err);
             console.error('Uh oh, something went wrong.');
           });
         });

@@ -27,7 +27,7 @@ module.exports = passport => {
   passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:5000/login/facebook/callback"
+    callbackURL: "https://timolawl-nightlife.herokuapp.com/login/facebook/callback"
     },
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(() => {
@@ -42,7 +42,7 @@ module.exports = passport => {
   passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: 'http://localhost:5000/login/twitter/callback'
+    callbackURL: 'https://timolawl-nightlife.herokuapp.com/login/twitter/callback'
       //callbackURL: 'https://timolawl-nightlife.herokuapp.com'
     },
     function (token, tokenSecret, profile, cb) {
