@@ -13,7 +13,6 @@ module.exports = passport => {
   //serialization/deserialization of user for session..
   // serialize called when user logs in
   passport.serializeUser((user, done) => {
-   // console.log('serializing user (user.id): ' + user._id);
     done(null, user._id);
   });
 
@@ -21,7 +20,6 @@ module.exports = passport => {
   // takes the id stored in the session and we use that id to retrieve our user.
   passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
-   //   console.log('deserializing user (id): ' + id);
       done(err, user);
     });
   });

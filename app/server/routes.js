@@ -28,13 +28,14 @@ module.exports = (app, passport) => {
       req.logout();
       res.redirect('/'); // should redirect depending on content in input box
     });
-
+/*
   app.use((req, res) => {
     if (req.isAuthenticated())
       res.render('404', { loggedIn: 'true', path: '404' });
     else res.render('404', { loggedIn: 'false', path: '404' });
   });
-  //app.use((req, res) => { res.status(400).send('Bad request.'); });
+  */
+  app.use((req, res) => { res.status(400).send('Bad request.'); });
 
 
 };

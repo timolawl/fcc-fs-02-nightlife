@@ -21,12 +21,6 @@ window.onload = function () {
   }
   else searchInput = '';
 
-  // if document referrer was the login completion,
-  // and logstatus is logged in
-  // populate the input field with the previous input and do a search.
- // console.log('document.referrer: ' + document.referrer);
- // console.log('search input: ' + searchInput);
-  
   if (searchInput) {
     document.querySelector('.mainbox__search--input').value = searchInput;
     // move items to top
@@ -44,9 +38,7 @@ window.onload = function () {
     }
     else if (logStatus === 'Log Out') {
       sessionStorage.removeItem('searchLocation');
-      // adding this because the redirect to find out that there should be nothing here is a bit slow...
       document.querySelector('.mainbox__search--input').value = '';
-
       
       //basically conductSearch in reverse
       document.querySelector('.bar-list').classList.add('visibility--hide');
@@ -81,12 +73,6 @@ window.onload = function () {
 
   // when there is input, change view to have search bar at the top of the page
   document.querySelector('.mainbox__search--input').addEventListener('input', e => {
-    // if there is content and the previous state was empty, toggle
-    //if ((e.target.value || e.target.length !== 0) && previousState.length === 0) {
-    
-    //}
-   // console.log(e.target.value);
-  //  console.log(e.target.length);
     toggleView(e.target.value.length, false, logStatus);
   });
 
@@ -121,7 +107,6 @@ function conductSearch (searchValue) {
   socket.emit('bar search', { location: searchValue });
   // store the most recent search location in sessionStorage
   sessionStorage.setItem('searchLocation', searchValue);
- // console.log('session storage set: ' + sessionStorage.getItem('searchLocation'));
 
 
 }
@@ -146,34 +131,15 @@ function toggleView (inputLength, logoutAction, logStatus) {
 }
 
 socket.on('bar results', function (data) {
- // console.log('socket emission received...');
   const yelpReviews = data.reviews;
   let listings = document.createDocumentFragment();
   listings.className = 'visibility--hide';
   let masonrySizer = document.createElement('div');
   masonrySizer.className = 'masonry-element--sizer';
   listings.appendChild(masonrySizer);
-  //console.log('business length: ' + yelpReviews.length);
   for (let listingNumber = 0; listingNumber < yelpReviews.length; listingNumber++) {
-    /*
-    let currentRow;
-    if (listingNumber === 0 || listingNumber % 3 === 0) {
-      //create new row
-      let newRow = document.createElement('div')
-      newRow.className = 'row';
-      listings.appendChild(newRow);
-      currentRow = newRow;
-    }
-    else {
-      currentRow = listings.querySelector('.row:last-of-type')
-    }
-
-    createListing(yelpReviews[listingNumber], currentRow);
-    */
     createListing(yelpReviews[listingNumber], listings);
   }
-
-  //document.querySelector('.bar-list').appendChild(listings);
 
   let images = listings.querySelectorAll('.img-fluid');
 
@@ -227,39 +193,11 @@ socket.on('bar results', function (data) {
 
     document.querySelector('footer').classList.remove('footer--unsearched');
   });
-
-/*
-  var grid = document.querySelector('.bar-list').imagesLoaded( () => {
-    grid.masonry({
-      itemSelector: '.masonry-element',
-      columnWidth: '.masonry-element--sizer',
-      percentPosition: true
-    });
-  });
-*/
-  /*
-  document.querySelector('.bar-list').appendChild(listings);
-
-  document.querySelector('.bar-list').imagesLoaded( () => {
-    document.querySelector('.bar-list  
-  });
-  */
-/*
-  var msnry = new Masonry('.bar-list', {
-    itemSelector: '.masonry-element',
-    columnWidth: '.masonry-element--sizer',
-    percentPosition: true
-  });
-  */
-
 });
 
 function createListing (business, listings) {
- // console.log('making listings..');
- // console.log(business);
   let widthContainer = document.createElement('div');
   widthContainer.className = 'masonry-element'; // column medium-4 large-4';
-  //row.appendChild(widthContainer);
   listings.appendChild(widthContainer);
   let card = document.createElement('div');
   card.className = 'card';
@@ -301,14 +239,9 @@ function createListing (business, listings) {
 }
 
 socket.on('update', function (data) {
-  //console.log('update called!')
   // if the bar can be found, then update the bar
   Array.prototype.forEach.call(document.querySelectorAll('h6'), el => {
-    //console.log(el.className + ' ' + data.bar.name);
     if (el.className === data.bar.name) {
-   //   console.log('here we are!');
-    //  console.log(el.parentNode.querySelector('.going-badge').textContent);
-    //  console.log(data.bar.guestCount);
       el.parentNode.querySelector('.going-badge').textContent = data.bar.guestCount;
     }
   });

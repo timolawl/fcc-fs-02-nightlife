@@ -16,9 +16,6 @@ module.exports = io => {
 
     if (socket.request.session.passport) {
       userID = socket.request.session.passport.user;
-      //socket.request.session.searchLocation
-  //    console.log(`Your user ID is ${userID}`);
-      //console.log(`Search Location: ${socket.request.session.searchLocation}`);
     }
 
     // problem with this approach is that a client is on a page that doesn't require rooms, client remains connected to an old room...
@@ -38,8 +35,6 @@ module.exports = io => {
     });
 
     socket.on('bar search', function (data) {
-   //   console.log('socket search!');
-   //   console.log('location: ' + data.location);
 
       const params = 'grant_type=client_credentials' + '&' +
         'client_id=' + process.env.YELP_APP_ID + '&' +
@@ -48,15 +43,9 @@ module.exports = io => {
       const reqTokenURL = 'https://api.yelp.com/oauth2/token';
       const searchNearbyURL = 'https://api.yelp.com/v3/businesses/search';
       const location = 'location=' + encodeURIComponent(data.location);
-      //console.log(location);
-     // socket.request.session.searchLocation = data.location;
-   //   console.log(socket.request.session);
-   //   console.log('socket session id: ' + socket.request.session.id);
       const businessesQueryURL = `${searchNearbyURL}?${location}&categories=bars`;
       let authorizationHeader = '';
 
-      //var yelpSearchResults = {}; // temporary storage in order to add in the one review
-     
       // lookup in database which bars have attendees
       /*
       Bar.find({ guestlist: { $exists: true, $ne: [] }}).exec((err, result) => {
@@ -92,10 +81,8 @@ module.exports = io => {
 
           Promise.all(promises).then(businessListings => {
             // returned data is in arguments[0], arguments[1]...
-       //     console.log('all excerpts received!');
             // retrieve only the relevant statistics
             
-           // console.log(yelpReviews);
             let businessIDs = businessListings.map(business => business.id);
 
             let yelpReviews = businessListings.map(businessListing => {
@@ -110,8 +97,6 @@ module.exports = io => {
               return condensedReview;
             });
 
-          
-
             // compare the listings with the bars with attendees
 
             let promise = Bar.find({
@@ -119,20 +104,13 @@ module.exports = io => {
               guestCount: { $gt: 0 }
             }).exec((err, docs) => {
               if (err) throw err;
-         //     console.log('logging docs...');
-              // business names, number attending, user included?
-         //     console.log(docs);
-              // ill have an array of places that
               docs.forEach(doc => {
                 let businessToUpdateIndex = yelpReviews.findIndex(biz => biz.id === doc.name);
-               // console.log(yelpReviews.findIndex(biz => biz.id === doc.name));
                 if (businessToUpdateIndex > -1) { // business found
-         //         console.log('business to update..');
                   yelpReviews[businessToUpdateIndex].guestCount = doc.guestCount;
                   if (doc.guestList.find(user => user === userID)) {
                     yelpReviews[businessToUpdateIndex].attending = true;
                   }
-                 // console.log(yelpReviews);
                 }
 
               });
@@ -144,26 +122,21 @@ module.exports = io => {
 
 
           }, function (err) {
-            console.error('rip..');
+            console.error('Uh oh, something went wrong.');
           });
-          
-       //   console.log('results have been found!');
         });
     });
 
     socket.on('add attendance', function (data) {
       // remove all old rsvps from all bars
 
-      //console.log('Adding attendance to: ' + data.bar);  
       Bar.findOne({ 'name': data.bar }).exec((err, bar) => {
         if (err) throw err;
         if (!bar) {
           const newBar = new Bar();
           newBar.name = data.bar;
-          //newBar.guestList.push({ attendee: userID, timeOfRSVP: Date.now() });
           newBar.guestList.push(userID);
           newBar.guestCount += 1;
-        //  console.log(newBar);
           
           newBar.save(err => {
             if (err) {
@@ -175,23 +148,18 @@ module.exports = io => {
           });
         }
         else {
-          //bar.guestList.push({ attendee: userID, timeOfRSVP: Date.now() });
           bar.guestList.push(userID);
           bar.guestCount += 1;
           bar.save(err => {
             if (err) throw err;
           });
           socket.broadcast.emit('update', { bar: bar });
-       //   console.log('adding');
-       //   console.log(bar);
         }
       });
 
     });
 
     socket.on('remove attendance', function (data) {
-
-      //console.log('Removing attendance from: ' + data.bar);
 /*
       Bar.update(
         { 'name': data.bar },
@@ -210,8 +178,6 @@ module.exports = io => {
               if (err) throw err;
             });
             socket.broadcast.emit('update', { bar: bar });
-       //     console.log('removing');
-       //     console.log(bar);
           }
         });
       
