@@ -170,6 +170,8 @@ module.exports = io => {
               console.log(err);
               console.log('something went wrong');
             } // throw err;
+            // broadcast the update to all other users
+            socket.broadcast.emit('update', { bar: newBar });
           });
         }
         else {
@@ -179,8 +181,12 @@ module.exports = io => {
           bar.save(err => {
             if (err) throw err;
           });
+          socket.broadcast.emit('update', { bar: bar });
+       //   console.log('adding');
+       //   console.log(bar);
         }
       });
+
     });
 
     socket.on('remove attendance', function (data) {
@@ -196,11 +202,20 @@ module.exports = io => {
       
       Bar.findOneAndUpdate({ 'name': data.bar }, 
         { $pull: { 'guestList': userID },
-          $inc: { 'guestCount': -1 } }, (err, bar) => {
-          if (err) throw err;
-          else console.log('attendance removed!');
+          $inc: { 'guestCount': -1 } },
+        { new: true }, (err, bar) => { // option true sets mongodb to return changed doc
+          if (err) throw error;
+          else {
+            bar.save(err => {
+              if (err) throw err;
+            });
+            socket.broadcast.emit('update', { bar: bar });
+       //     console.log('removing');
+       //     console.log(bar);
+          }
         });
-
+      
+      
       /*
       Bar.findOne({ 'name': data.bar }).exec((err, bar) => {
         if (err) throw err;

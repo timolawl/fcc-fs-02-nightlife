@@ -299,3 +299,17 @@ function createListing (business, listings) {
   goingText.textContent = 'Going';
   goingButton.appendChild(goingText);
 }
+
+socket.on('update', function (data) {
+  //console.log('update called!')
+  // if the bar can be found, then update the bar
+  Array.prototype.forEach.call(document.querySelectorAll('h6'), el => {
+    //console.log(el.className + ' ' + data.bar.name);
+    if (el.className === data.bar.name) {
+   //   console.log('here we are!');
+    //  console.log(el.parentNode.querySelector('.going-badge').textContent);
+    //  console.log(data.bar.guestCount);
+      el.parentNode.querySelector('.going-badge').textContent = data.bar.guestCount;
+    }
+  });
+});
