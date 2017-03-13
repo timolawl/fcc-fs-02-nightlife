@@ -18,22 +18,6 @@ module.exports = io => {
       userID = socket.request.session.passport.user;
     }
 
-    // problem with this approach is that a client is on a page that doesn't require rooms, client remains connected to an old room...
-    // perhaps the proper approach is to leave any rooms upon joining the non-room pages
-    //
-
-    socket.on('leave room', function (data) {
-      if (socket.room !== undefined)
-        socket.leave(socket.room);
-    });
-
-    socket.on('change room', function (data) {
-      if (socket.room !== undefined)
-        socket.leave(socket.room);
-      socket.room = data.room;
-      socket.join(socket.room);
-    });
-
     socket.on('bar search', function (data) {
 
       const params = 'grant_type=client_credentials' + '&' +
@@ -45,18 +29,6 @@ module.exports = io => {
       const location = 'location=' + encodeURIComponent(data.location);
       const businessesQueryURL = `${searchNearbyURL}?${location}&categories=bars`;
       let authorizationHeader = '';
-
-      // lookup in database which bars have attendees
-      /*
-      Bar.find({ guestlist: { $exists: true, $ne: [] }}).exec((err, result) => {
-        if (err) throw err;
-        if (!result) { console.log('no bars yet..') };
-        else {
-          console.log(result);
-        }
-      });
-*/
-
 
       fetch(reqTokenURL, { method: 'POST', body: params })
         .then(res => res.json())
