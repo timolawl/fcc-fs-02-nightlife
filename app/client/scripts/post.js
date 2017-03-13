@@ -24,8 +24,8 @@ window.onload = function () {
   // if document referrer was the login completion,
   // and logstatus is logged in
   // populate the input field with the previous input and do a search.
-  console.log('document.referrer: ' + document.referrer);
-  console.log('search input: ' + searchInput);
+ // console.log('document.referrer: ' + document.referrer);
+ // console.log('search input: ' + searchInput);
   
   if (searchInput) {
     document.querySelector('.mainbox__search--input').value = searchInput;
@@ -85,8 +85,8 @@ window.onload = function () {
     //if ((e.target.value || e.target.length !== 0) && previousState.length === 0) {
     
     //}
-    console.log(e.target.value);
-    console.log(e.target.length);
+   // console.log(e.target.value);
+  //  console.log(e.target.length);
     toggleView(e.target.value.length, false, logStatus);
   });
 
@@ -121,7 +121,7 @@ function conductSearch (searchValue) {
   socket.emit('bar search', { location: searchValue });
   // store the most recent search location in sessionStorage
   sessionStorage.setItem('searchLocation', searchValue);
-  console.log('session storage set: ' + sessionStorage.getItem('searchLocation'));
+ // console.log('session storage set: ' + sessionStorage.getItem('searchLocation'));
 
 
 }
@@ -146,7 +146,7 @@ function toggleView (inputLength, logoutAction, logStatus) {
 }
 
 socket.on('bar results', function (data) {
-  console.log('socket emission received...');
+ // console.log('socket emission received...');
   const yelpReviews = data.reviews;
   let listings = document.createDocumentFragment();
   listings.className = 'visibility--hide';
@@ -180,7 +180,45 @@ socket.on('bar results', function (data) {
   imagesLoaded(images, () => { // after all images have been loaded on the fragment
 
     document.querySelector('.bar-list__loader').classList.add('display--hide');
-    document.querySelector('.bar-list').appendChild(listings); // append the fragment and start up masonry
+    document.querySelector('.bar-list').appendChild(listings); // append the fragment
+    Array.prototype.forEach.call(document.querySelectorAll('.going-button'), el => {
+      el.addEventListener('click', e => {
+        // check login status
+        // not logged in
+        if (document.querySelector('.mainbox__log-button').textContent === 'Log In') {
+          // show modal
+          document.querySelector('.overlay').classList.remove('visibility--hide');
+          document.querySelector('.modal').classList.remove('display--hide');
+          // save the 'going' choice..?
+
+        }
+        // logged in
+        else {
+          let event = e.target;
+          while (!event.classList.contains('button')) {
+            event = event.parentNode;
+          }
+          let barID = event.parentNode.querySelector('h6').classList[0];
+          // already going, but clicked to decide to not go
+          let goingCount = event.querySelector('.going-badge');
+          if (event.classList.contains('bar__attending')) {
+            event.classList.remove('bar__attending');
+            goingCount.textContent = parseInt(goingCount.textContent) - 1;
+            socket.emit('remove attendance', { bar: barID });
+          }
+          // if not going, but clicked to go
+          else {
+            event.classList.add('bar__attending');
+            goingCount.textContent = parseInt(goingCount.textContent) + 1;
+            socket.emit('add attendance', { bar: barID });
+          }
+        }
+        // check if already counted if logged in
+        // if counted and logged in, remove count and update db
+        // if not counted and logged in, add to count and update db
+      });
+    });
+    // start masonry
     var msnry = new Masonry(document.querySelector('.bar-list'), {
       itemSelector: '.masonry-element',
       columnWidth: '.masonry-element--sizer',
@@ -216,12 +254,13 @@ socket.on('bar results', function (data) {
 
 });
 
-function createListing (business, listing) {
-  console.log('making listings..');
+function createListing (business, listings) {
+ // console.log('making listings..');
+ // console.log(business);
   let widthContainer = document.createElement('div');
   widthContainer.className = 'masonry-element'; // column medium-4 large-4';
   //row.appendChild(widthContainer);
-  listing.appendChild(widthContainer);
+  listings.appendChild(widthContainer);
   let card = document.createElement('div');
   card.className = 'card';
   widthContainer.appendChild(card);
@@ -233,6 +272,7 @@ function createListing (business, listing) {
   img.src = business.image_url;
   cardSection.appendChild(img);
   let barTitle = document.createElement('h6');
+  barTitle.className = business.id;
   let barLink = document.createElement('a');
   barLink.className = 'bar__title';
   barLink.href = business.url;
@@ -244,15 +284,18 @@ function createListing (business, listing) {
   barReview.textContent = business.excerpt;
   cardSection.appendChild(barReview);
   let goingButton = document.createElement('button');
-  goingButton.className = 'button secondary';
+  goingButton.className = 'button secondary going-button';
+  if (business.attending) {
+    goingButton.classList.add('bar__attending');
+  }
   goingButton.setAttribute('type', 'button');
   cardSection.appendChild(goingButton);
   let goingCount = document.createElement('span');
-  goingCount.className = 'badge secondary';
-  goingCount.textContent = '0';
+  goingCount.className = 'badge primary going-badge';
+  goingCount.textContent = business.guestCount || '0';
   goingButton.appendChild(goingCount);
   let goingText = document.createElement('span');
   goingText.className = 'bar__going--text';
   goingText.textContent = 'Going';
-    goingButton.appendChild(goingText);
+  goingButton.appendChild(goingText);
 }

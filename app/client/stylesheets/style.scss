@@ -103,7 +103,7 @@ p {
   padding: 0.5em;
   vertical-align: middle;
   
-  &.secondary {
+  &.primary {
     background-color: $primary-color; // $primary-color;
   }
 
@@ -344,6 +344,10 @@ p {
       margin-left: 0.25em;
       vertical-align: middle;
     }  
+  }
+  
+  &__attending {
+    background-color: $highlight-color !important; // have to do this or make it an id to override foundation double class specificity
   }
 
 }

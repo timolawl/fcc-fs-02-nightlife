@@ -65,7 +65,7 @@ userSchema.statics.findOrCreate = function (profile, cb) {
   this.findOne({ $or: [{ twitterID: profile.id }, { facebookID: profile.id }] }, function (err, result) {
     if (err) throw err;
     if (!result) {
-      console.log('making new profile...');
+    //  console.log('making new profile...');
       newUser.provider = profile.provider;
 
       if (profile.provider === 'facebook') {

@@ -10,12 +10,12 @@ module.exports = function controller () { // can't use arrow notation here becau
     console.log('req.session.passport before home: ' + req.session.passport);
     console.log('req.session.passport.user before home: ' + req.session.passport.user);
     */
-    console.log('home page');
+  //  console.log('home page');
     if (req.isAuthenticated()) { // authenticated using which method though?
-      console.log('user is authenticated');
+    //  console.log('user is authenticated');
       // load profile for user
-      console.log('req.user.id is... ' + req.user.id);
-      console.log('req.session is... ' + req.session);
+     // console.log('req.user.id is... ' + req.user.id);
+     // console.log('req.session is... ' + req.session);
       /*
       for (var property in req.session) {
         console.log(property + '=' + req.session[property]);
@@ -38,7 +38,7 @@ module.exports = function controller () { // can't use arrow notation here becau
       console.log(my_stringify2(req.session));
       */
 
-      console.log('req.session.passport.user: ' + req.session.passport.user);
+   //   console.log('req.session.passport.user: ' + req.session.passport.user);
       User.findOne({ _id: req.user.id }, function (err, user) {
         if (err) throw err;
         if (!user) {
