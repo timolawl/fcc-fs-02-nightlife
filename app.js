@@ -26,9 +26,6 @@ const mongoose = require('mongoose'); // already includes mongoDB
 
 // security requires
 const helmet = require('helmet');
-// const sanitizer = require('sanitizer'); // have I even used this?
-const limiter = require('limiter'); // where will I be using limiter?
-// const uuid = require('node-uuid'); // for the nonce, though I may not need it required here...along with other 'requires'; since not using email confirm, no need...
 
 // performance requires
 const compression = require('compression'); // compresses req/res 
@@ -49,7 +46,6 @@ const passport = require('passport');
 const port = process.env.PORT || 5000;
 const routes = require('./app/server/routes');
 const config = require('./app/server/config');
-// const User = require('./app/server/models/user'); // why is this required?
 
 mongoose.connect(config.dbURI);
 mongoose.connection.on('error', () => {
