@@ -2,7 +2,7 @@
 
 const fetch = require('node-fetch');
 
-const Bar = require('../../models/bar');
+const Bar = require('../models/bar');
 
 module.exports = io => {
 
