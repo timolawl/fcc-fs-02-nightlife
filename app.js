@@ -1,6 +1,6 @@
 'use strict';
 
-// can't use import natively yet as V8 doesn't have support for it yet.
+// es6 modules are not natively supported in V8 yet..
 
 // require('dotenv').config(); // loads env vars (don't need in prod)
 
@@ -15,11 +15,8 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-// server.listen(80);
-
 // other base tech stack requires
 const favicon = require('serve-favicon');
-
 
 // database requires
 const mongoose = require('mongoose'); // already includes mongoDB
@@ -37,10 +34,8 @@ const session = require('express-session'); // session data is not saved in the 
 const MongoStore = require('connect-mongo')(session); // move store from mem to mongo
 const passport = require('passport');
 
-
 // development requires
 // const morgan = require('morgan'); // allows for every HTTP request to be logged to console
-
 
 // custom requires
 const port = process.env.PORT || 5000;
@@ -61,7 +56,6 @@ app.set('views', path.join(__dirname, '/app/server/views'));
 app.locals.basedir = app.get('views'); // allows for pug includes
 
 
-//app.listen(5000, () => { console.log("Running on 5000."); });
 app.set('port', port);
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,7 +65,6 @@ app.use(compression()); // compresses all req and res
 app.use(helmet()); // can set up CSP against XSS attacks. 7/10 of its headers implemented by default.
 app.use('/static', express.static(path.join(__dirname,'/static')));
 app.use(favicon(path.join(__dirname, '/static/img/favicon.ico')));
-
 
 
 // app.use(morgan('dev')); // log every request to console.
@@ -110,8 +103,6 @@ app.listen(app.get('port'), () => {
 io.use(function(socket, next) {
   sessionMiddleware(socket.request, {}, next);
 });
-
-
 
 
 server.listen(app.get('port'), () => {
