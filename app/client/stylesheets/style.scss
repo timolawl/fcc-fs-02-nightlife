@@ -57,10 +57,11 @@ a {
   text-decoration: none;
   color: $secondary-color;
   transition: color 0.25s ease-out; 
-
+  /*
   &:visited {
-      color: $secondary-color;
+      color: $highlight-color; // $secondary-color;
   }
+  */
   &:hover {
       color: $highlight-color;
   }
@@ -333,7 +334,7 @@ p {
   
   &__title {
     margin-bottom: 0;
-    //color: $highlight-color;
+    color: $highlight-color;
     font-weight: bold;
   }
   &__review {

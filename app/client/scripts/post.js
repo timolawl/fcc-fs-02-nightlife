@@ -218,7 +218,7 @@ function createListing (business, listings) {
   barTitle.appendChild(barLink);
   cardSection.appendChild(barTitle);
   let barReview = document.createElement('p');
-  barReview.className = 'card-text text-justify';
+  barReview.className = 'bar__review text-justify';
   barReview.textContent = business.excerpt;
   cardSection.appendChild(barReview);
   let goingButton = document.createElement('button');
