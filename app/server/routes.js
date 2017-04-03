@@ -13,13 +13,13 @@ module.exports = (app, passport) => {
     .get(passport.authenticate('facebook'));
 
   app.route('/login/facebook/callback')
-    .get(passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+    .get(passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/' }));
 
   app.route('/login/twitter')
     .get(passport.authenticate('twitter'));
 
   app.route('/login/twitter/callback')
-    .get(passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+    .get(passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/' }));
       
       
   
