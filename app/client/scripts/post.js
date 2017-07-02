@@ -111,6 +111,8 @@ function conductSearch (searchValue) {
 
 }
 
+
+// toggles view between input box in the center of screen or the top
 function toggleView (inputLength, logoutAction, logStatus) {
   // if there is content and the top display is not already displayed, then toggle
   // or if there is no content and regular display is not already displayed, then toggle
